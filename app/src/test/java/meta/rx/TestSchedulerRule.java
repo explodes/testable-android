@@ -34,15 +34,11 @@ public class TestSchedulerRule implements TestRule {
 		return new Statement() {
 			@Override
 			public void evaluate() throws Throwable {
-				RxJavaPlugins.setIoSchedulerHandler(
-					scheduler -> testScheduler);
-				RxJavaPlugins.setComputationSchedulerHandler(
-					scheduler -> testScheduler);
-				RxJavaPlugins.setNewThreadSchedulerHandler(
-					scheduler -> testScheduler);
-				RxAndroidPlugins.setMainThreadSchedulerHandler(
-					scheduler -> immediate);
-
+				RxJavaPlugins.setSingleSchedulerHandler(scheduler -> testScheduler);
+				RxJavaPlugins.setIoSchedulerHandler(scheduler -> testScheduler);
+				RxJavaPlugins.setComputationSchedulerHandler(scheduler -> testScheduler);
+				RxJavaPlugins.setNewThreadSchedulerHandler(scheduler -> testScheduler);
+				RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -> immediate);
 				try {
 					base.evaluate();
 				} finally {

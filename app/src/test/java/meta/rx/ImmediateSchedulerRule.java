@@ -27,15 +27,11 @@ public class ImmediateSchedulerRule implements TestRule {
 		return new Statement() {
 			@Override
 			public void evaluate() throws Throwable {
-				RxJavaPlugins.setIoSchedulerHandler(
-					scheduler -> immediate);
-				RxJavaPlugins.setComputationSchedulerHandler(
-					scheduler -> immediate);
-				RxJavaPlugins.setNewThreadSchedulerHandler(
-					scheduler -> immediate);
-				RxAndroidPlugins.setMainThreadSchedulerHandler(
-					scheduler -> immediate);
-
+				RxJavaPlugins.setSingleSchedulerHandler(scheduler -> immediate);
+				RxJavaPlugins.setIoSchedulerHandler(scheduler -> immediate);
+				RxJavaPlugins.setComputationSchedulerHandler(scheduler -> immediate);
+				RxJavaPlugins.setNewThreadSchedulerHandler(scheduler -> immediate);
+				RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -> immediate);
 				try {
 					base.evaluate();
 				} finally {

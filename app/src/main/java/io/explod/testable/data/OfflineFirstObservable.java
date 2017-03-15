@@ -15,7 +15,7 @@ public class OfflineFirstObservable<T> {
 
 	@NonNull
 	public static <T> OfflineFirstObservable<T> from(@NonNull Single<T> offlineSource, @NonNull Single<T> onlineSource) {
-		InternetConnectivityService internetConnectivityService = InternetConnectivityServiceInjector.INSTANCE.internetConnectivityService;
+		InternetConnectivityService internetConnectivityService = InternetConnectivityServiceInjector.get();
 		return new OfflineFirstObservable<>(internetConnectivityService, offlineSource, onlineSource);
 	}
 
@@ -42,8 +42,9 @@ public class OfflineFirstObservable<T> {
 		return mInternetConnectivityService.connectionObservable()
 			.subscribeOn(Schedulers.io())
 			.take(1)
-			.flatMap(status -> {
-				if (status) {
+			.singleOrError()
+			.flatMapObservable(connected -> {
+				if (connected) {
 					return Observable.concat(mOfflineSource.toObservable(), mOnlineSource.toObservable());
 				} else {
 					return mOfflineSource.toObservable();
@@ -69,13 +70,7 @@ public class OfflineFirstObservable<T> {
 			.subscribeOn(Schedulers.io())
 			.take(1)
 			.singleOrError()
-			.flatMap(status -> {
-				if (status) {
-					return mOnlineSource;
-				} else {
-					return mOfflineSource;
-				}
-			});
+			.flatMap(connected -> connected ? mOnlineSource : mOfflineSource);
 	}
 
 	/**
@@ -85,14 +80,19 @@ public class OfflineFirstObservable<T> {
 	 * @hide Visible only for injection
 	 */
 	public static class InternetConnectivityServiceInjector {
-		@NonNull
-		static final InternetConnectivityServiceInjector INSTANCE = new InternetConnectivityServiceInjector();
 
 		@Inject
 		InternetConnectivityService internetConnectivityService;
 
 		public InternetConnectivityServiceInjector() {
 			getInjector().inject(this);
+		}
+
+		@NonNull
+		public static InternetConnectivityService get() {
+			InternetConnectivityService service = new InternetConnectivityServiceInjector().internetConnectivityService;
+			if (service == null) throw new NullPointerException("Unable to fetch service");
+			return service;
 		}
 
 	}

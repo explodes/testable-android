@@ -15,8 +15,8 @@ public class TestInternetConnectivityService implements InternetConnectivityServ
 		setConnected(true);
 	}
 
-	public void setConnected(boolean status) {
-		mConnectivitySubject.onNext(true);
+	public void setConnected(boolean connected) {
+		mConnectivitySubject.onNext(connected);
 	}
 
 	@Override
