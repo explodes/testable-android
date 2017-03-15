@@ -12,7 +12,8 @@ import io.reactivex.plugins.RxJavaPlugins;
 public class ImmediateSchedulerRule implements TestRule {
 
 	private final Scheduler immediate = new Scheduler() {
-		@Override public Worker createWorker() {
+		@Override
+		public Worker createWorker() {
 			return new ExecutorScheduler.ExecutorWorker(Runnable::run);
 		}
 	};

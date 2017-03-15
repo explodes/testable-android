@@ -3,8 +3,6 @@ package io.explod.testable.module.modules;
 
 import android.support.annotation.NonNull;
 
-import com.google.gson.Gson;
-
 import java.io.File;
 
 import javax.inject.Singleton;
@@ -13,14 +11,9 @@ import dagger.Module;
 import dagger.Provides;
 import io.explod.testable.App;
 import io.explod.testable.BuildConfig;
-import io.explod.testable.data.remote.GithubService;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class NetworkModule {

@@ -14,7 +14,6 @@ import org.robolectric.annotation.Config;
 import java.util.Date;
 
 import io.explod.querydb.BuildConfig;
-import io.explod.querydb.util.CursorUtils;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;

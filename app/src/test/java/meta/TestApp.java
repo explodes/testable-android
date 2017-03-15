@@ -3,7 +3,6 @@ package meta;
 import android.support.annotation.NonNull;
 
 import io.explod.testable.App;
-import io.explod.testable.module.DaggerObjectComponent;
 import io.explod.testable.module.ObjectComponent;
 import io.explod.testable.module.modules.AppModule;
 
