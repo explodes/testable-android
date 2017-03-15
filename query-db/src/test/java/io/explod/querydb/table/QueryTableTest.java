@@ -66,7 +66,7 @@ public class QueryTableTest {
 	@Before
 	public void setupDatabase() {
 		db = new TestDatabase(RuntimeEnvironment.application);
-		QueryTable.RowConverter<Record> converter = new QueryTable.RowConverter<Record>() {
+		RowConverter<Record> converter = new RowConverter<Record>() {
 			@NonNull
 			@Override
 			public Record convertCurrentRow(@NonNull Cursor cursor) {
