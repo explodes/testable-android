@@ -7,7 +7,7 @@ import android.util.Log;
 import javax.inject.Inject;
 
 import io.explod.testable.R;
-import io.explod.testable.data.remote.AppRemoteRepo;
+import io.explod.testable.data.AppRepo;
 import io.reactivex.Observable;
 
 import static io.explod.testable.module.ObjectGraph.getInjector;
@@ -18,7 +18,7 @@ public class MainActivity extends BaseActivity {
 	private static final String TAG = makeTag(MainActivity.class);
 
 	@Inject
-	AppRemoteRepo mAppRemoteRepo;
+	AppRepo mAppRepo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class MainActivity extends BaseActivity {
 		getInjector().inject(this);
 		setContentView(R.layout.activity_main);
 
-		mAppRemoteRepo.getRepositories("explodes")
+		mAppRepo.getRepositories("explodes")
 			.flatMapObservable(results -> Observable.fromIterable(results.second).map(repo -> Pair.create(results.first, repo)))
 			.subscribe(
 				userRepo -> Log.d(TAG, "Got repo for user " + userRepo.first.getName() + " (" + userRepo.first.getId() + ") " + " called " + userRepo.second.getName() + " (" + userRepo.second.getId() + ")"),

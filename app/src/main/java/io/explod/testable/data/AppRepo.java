@@ -1,4 +1,4 @@
-package io.explod.testable.data.remote;
+package io.explod.testable.data;
 
 
 import android.support.annotation.NonNull;
@@ -12,13 +12,14 @@ import javax.inject.Inject;
 import io.explod.testable.data.local.AppDatabase;
 import io.explod.testable.data.local.model.Repository;
 import io.explod.testable.data.local.model.User;
+import io.explod.testable.data.remote.GithubService;
 import io.explod.testable.data.remote.model.UserRepositoryResponse;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
 import static io.explod.testable.module.ObjectGraph.getInjector;
 
-public class AppRemoteRepo {
+public class AppRepo {
 
 	@Inject
 	GithubService mGithubService;
@@ -26,10 +27,9 @@ public class AppRemoteRepo {
 	@Inject
 	AppDatabase mAppDatabase;
 
-	public AppRemoteRepo() {
+	public AppRepo() {
 		getInjector().inject(this);
 	}
-
 
 	@NonNull
 	public Single<Pair<User, List<Repository>>> getRepositories(@NonNull String username) {
@@ -61,6 +61,8 @@ public class AppRemoteRepo {
 
 	// intentionally mutable for a collect call
 	// so we can modify the user when we know who it is
+	//
+	// i'm open to a better suggestion
 	private static class UserRepos {
 		User user;
 		List<Repository> repos = new ArrayList<>();

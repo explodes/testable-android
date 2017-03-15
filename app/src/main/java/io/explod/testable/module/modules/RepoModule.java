@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.explod.testable.data.remote.AppRemoteRepo;
+import io.explod.testable.data.AppRepo;
 
 @Module
 public class RepoModule {
@@ -14,8 +14,8 @@ public class RepoModule {
 	@Provides
 	@NonNull
 	@Singleton
-	AppRemoteRepo providesAppRemoteRepo() {
-		return new AppRemoteRepo();
+	AppRepo providesAppRemoteRepo() {
+		return new AppRepo();
 	}
 
 }
