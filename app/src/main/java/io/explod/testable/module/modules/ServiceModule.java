@@ -10,6 +10,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import io.explod.testable.data.remote.GithubService;
+import io.explod.testable.service.InternetConnectivityServiceImpl;
+import io.explod.testable.service.base.InternetConnectivityService;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -30,6 +32,13 @@ public class ServiceModule {
 			.client(client)
 			.build()
 			.create(GithubService.class);
+	}
+
+	@Provides
+	@NonNull
+	@Singleton
+	InternetConnectivityService providesInternetConnectivityService() {
+		return new InternetConnectivityServiceImpl();
 	}
 
 }

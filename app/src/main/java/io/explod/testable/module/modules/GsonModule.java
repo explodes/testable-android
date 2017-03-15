@@ -2,6 +2,7 @@ package io.explod.testable.module.modules;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -50,7 +51,7 @@ public class GsonModule {
 	private static class DateFormatter implements JsonDeserializer<Date>, JsonSerializer<Date> {
 
 		@Override
-		public Date deserialize(JsonElement jsonElement, Type typeOfDest, JsonDeserializationContext context) throws JsonParseException {
+		public Date deserialize(@NonNull JsonElement jsonElement, Type typeOfDest, JsonDeserializationContext context) throws JsonParseException {
 			String value = jsonElement.getAsString().replaceAll("Z$", "+0000");
 			for (SimpleDateFormat format : DATE_FORMATS) {
 				Date parsed;
@@ -65,8 +66,9 @@ public class GsonModule {
 			throw new JsonParseException("Could not parse date: \"" + jsonElement.getAsString() + "\".");
 		}
 
+		@Nullable
 		@Override
-		public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
+		public JsonElement serialize(@Nullable Date src, Type typeOfSrc, JsonSerializationContext context) {
 			if (src == null) {
 				return null;
 			}

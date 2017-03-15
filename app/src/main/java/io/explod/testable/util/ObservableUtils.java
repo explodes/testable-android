@@ -15,11 +15,13 @@ public class ObservableUtils {
 
 	@FunctionalInterface
 	public interface ThrowableFunc<T> {
+		@NonNull
 		T call() throws Throwable;
 	}
 
 	@FunctionalInterface
 	public interface Transformer<R, T> {
+		@NonNull
 		T call(@NonNull R arg);
 	}
 

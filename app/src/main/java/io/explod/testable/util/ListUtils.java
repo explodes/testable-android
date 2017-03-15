@@ -75,6 +75,7 @@ public final class ListUtils {
 	}
 
 
+	@NonNull
 	public static <A, B> List<B> transform(@NonNull Collection<A> list, @NonNull Transform<A, B> transform) {
 		List<B> results = new ArrayList<>(list.size());
 		for (A a : list) {
@@ -86,6 +87,7 @@ public final class ListUtils {
 		return results;
 	}
 
+	@NonNull
 	public static <In extends Out, Out> List<Out> asList(@NonNull Collection<In> in) {
 		return transform(in, (a) -> a);
 	}

@@ -27,9 +27,10 @@ public class MainActivity extends BaseActivity {
 		setContentView(R.layout.activity_main);
 
 		mAppRepo.getRepositories("explodes")
+			.fromOnlineOrOffline()
 			.flatMapObservable(results -> Observable.fromIterable(results.second).map(repo -> Pair.create(results.first, repo)))
 			.subscribe(
-				userRepo -> Log.d(TAG, "Got repo for user " + userRepo.first.getName() + " (" + userRepo.first.getId() + ") " + " called " + userRepo.second.getName() + " (" + userRepo.second.getId() + ")"),
+				userRepo -> Log.d(TAG, "Got repo for user " + userRepo.first.getName() + " (" + userRepo.first.getId() + ") called " + userRepo.second.getName() + " (" + userRepo.second.getId() + ")"),
 				e -> Log.e(TAG, "Error fetching repos", e)
 			);
 	}

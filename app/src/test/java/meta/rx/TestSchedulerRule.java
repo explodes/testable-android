@@ -1,5 +1,7 @@
 package meta.rx;
 
+import android.support.annotation.NonNull;
+
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -13,6 +15,7 @@ import io.reactivex.schedulers.TestScheduler;
 public class TestSchedulerRule implements TestRule {
 
 	private final Scheduler immediate = new Scheduler() {
+		@NonNull
 		@Override
 		public Worker createWorker() {
 			return new ExecutorScheduler.ExecutorWorker(Runnable::run);
@@ -20,12 +23,14 @@ public class TestSchedulerRule implements TestRule {
 	};
 	private final TestScheduler testScheduler = new TestScheduler();
 
+	@NonNull
 	public TestScheduler getTestScheduler() {
 		return testScheduler;
 	}
 
+	@NonNull
 	@Override
-	public Statement apply(final Statement base, Description d) {
+	public Statement apply(@NonNull final Statement base, Description d) {
 		return new Statement() {
 			@Override
 			public void evaluate() throws Throwable {

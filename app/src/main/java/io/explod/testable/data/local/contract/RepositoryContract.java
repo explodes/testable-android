@@ -1,6 +1,7 @@
 package io.explod.testable.data.local.contract;
 
 import android.provider.BaseColumns;
+import android.support.annotation.Nullable;
 
 public class RepositoryContract {
 
@@ -16,6 +17,6 @@ public class RepositoryContract {
 	}
 
 	public static final class Sort {
-		public static final String DEFAULT = null;
+		@Nullable public static final String DEFAULT = null;
 	}
 }

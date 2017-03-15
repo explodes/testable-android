@@ -12,7 +12,7 @@ public abstract class App extends Application {
 
 	private static App sInstance;
 
-	public static App get() {
+	public static App getApp() {
 		return sInstance;
 	}
 
