@@ -13,7 +13,7 @@ public class TestApp extends App {
 	@Override
 	protected ObjectComponent buildObjectComponent() {
 		// todo: use DaggerTestObjectComponent
-		return DaggerObjectComponent.builder()
+		return DaggerTestObjectComponent.builder()
 			.appModule(new AppModule(this))
 			.build();
 	}
