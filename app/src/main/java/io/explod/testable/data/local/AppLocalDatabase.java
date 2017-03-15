@@ -5,10 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import io.explod.querydb.Migration;
+import io.explod.querydb.QueryDbHelper;
 import io.explod.testable.data.local.contract.GithubRepositoryContract;
 import io.explod.testable.data.local.contract.GithubUserContract;
-import io.explod.testable.util.db.Migration;
-import io.explod.testable.util.db.QueryDbHelper;
 
 public class AppLocalDatabase extends QueryDbHelper {
 

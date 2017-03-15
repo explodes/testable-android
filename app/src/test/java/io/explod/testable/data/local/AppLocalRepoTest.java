@@ -36,10 +36,10 @@ public class AppLocalRepoTest extends BaseRoboTest {
 		AtomicInteger count = new AtomicInteger(0);
 
 		repo
-			.insertUser("explodes")
-			.flatMap(userId -> repo.insertRepository(userId, "test-repo1-" + userId).map(x -> userId))
-			.flatMap(userId -> repo.insertRepository(userId, "test-repo2-" + userId).map(x -> userId))
-			.flatMap(userId -> repo.getRepositories())
+			.Users.insert("explodes")
+			.flatMap(user -> repo.Repositories.insert(user.getId(), "test-repo1-" + user).map(x -> user))
+			.flatMap(user -> repo.Repositories.insert(user.getId(), "test-repo2-" + user).map(x -> user))
+			.flatMapObservable(user -> repo.Repositories.getAll())
 			.subscribe(repo -> count.addAndGet(1), e -> fail(e.toString()));
 
 		assertEquals(2, count.get());
@@ -49,11 +49,11 @@ public class AppLocalRepoTest extends BaseRoboTest {
 	public void insertAndGetGithubUsers() throws Exception {
 		AtomicInteger count = new AtomicInteger(0);
 
-		Observable.merge(repo.insertUser("abc"), repo.insertUser("123")).subscribe(x -> {
+		Observable.merge(repo.Users.insert("abc").toObservable(), repo.Users.insert("123").toObservable()).subscribe(x -> {
 		}, e -> fail(e.toString()));
 		// subscribe in separate observable to make this test slightly different than the
 		// equivalent github repository test
-		repo.getUsers().subscribe(repo -> count.addAndGet(1), e -> fail(e.toString()));
+		repo.Users.getAll().subscribe(repo -> count.addAndGet(1), e -> fail(e.toString()));
 
 		assertEquals(2, count.get());
 	}

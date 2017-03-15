@@ -3,10 +3,12 @@ package io.explod.testable.util;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
+import com.fernandocejas.arrow.optional.Optional;
+
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
-import static io.explod.testable.util.db.CursorUtils.close;
+import static io.explod.querydb.CursorUtils.close;
 
 
 public class ObservableUtils {
@@ -57,6 +59,21 @@ public class ObservableUtils {
 				}
 			})
 			.subscribeOn(Schedulers.io());
+	}
+
+	@NonNull
+	public static <T> Observable<Optional<T>> firstRow(@NonNull Cursor cursor, @NonNull Transformer<Cursor, T> transform) {
+		return asObservableIo(() -> {
+			try {
+				if (cursor.moveToNext()) {
+					T t = transform.call(cursor);
+					return Optional.of(t);
+				}
+				return Optional.<T>absent();
+			} finally {
+				close(cursor);
+			}
+		});
 	}
 
 }

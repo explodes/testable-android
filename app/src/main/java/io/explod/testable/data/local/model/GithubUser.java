@@ -3,8 +3,8 @@ package io.explod.testable.data.local.model;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
+import io.explod.querydb.CursorUtils;
 import io.explod.testable.data.local.contract.GithubUserContract;
-import io.explod.testable.util.db.CursorUtils;
 
 public class GithubUser {
 
@@ -27,4 +27,5 @@ public class GithubUser {
 	public String getName() {
 		return name;
 	}
+
 }

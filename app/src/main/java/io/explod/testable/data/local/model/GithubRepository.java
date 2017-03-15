@@ -3,8 +3,8 @@ package io.explod.testable.data.local.model;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
+import io.explod.querydb.CursorUtils;
 import io.explod.testable.data.local.contract.GithubRepositoryContract;
-import io.explod.testable.util.db.CursorUtils;
 
 public class GithubRepository {
 
