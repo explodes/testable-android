@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.explod.testable.data.local.LocalDatabase;
+import io.explod.testable.data.local.AppDatabase;
 import io.explod.testable.data.local.model.Repository;
 import io.explod.testable.data.local.model.User;
 import io.explod.testable.data.remote.model.UserRepositoryResponse;
@@ -24,7 +24,7 @@ public class AppRemoteRepo {
 	GithubService mGithubService;
 
 	@Inject
-	LocalDatabase mLocalDatabase;
+	AppDatabase mAppDatabase;
 
 	public AppRemoteRepo() {
 		getInjector().inject(this);
@@ -34,7 +34,7 @@ public class AppRemoteRepo {
 	@NonNull
 	public Single<Pair<User, List<Repository>>> getRepositories(@NonNull String username) {
 
-		Single<User> userCreate = mLocalDatabase.users().getOrCreate(username);
+		Single<User> userCreate = mAppDatabase.users().getOrCreate(username);
 		Single<List<UserRepositoryResponse>> reposFetch = mGithubService.getUserRepos(username);
 
 		return Single.zip(userCreate, reposFetch, Pair::create)
@@ -55,7 +55,7 @@ public class AppRemoteRepo {
 
 	private Observable<Pair<User, Repository>> saveRepositories(@NonNull User user, @NonNull List<UserRepositoryResponse> repos) {
 		return Observable.fromIterable(repos)
-			.flatMapSingle(repo -> mLocalDatabase.repositories().getOrCreate(user.getId(), repo.name))
+			.flatMapSingle(repo -> mAppDatabase.repositories().getOrCreate(user.getId(), repo.name))
 			.map(repo -> Pair.create(user, repo));
 	}
 

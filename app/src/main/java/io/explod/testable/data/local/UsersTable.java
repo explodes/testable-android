@@ -15,9 +15,9 @@ import io.reactivex.Single;
 
 import static android.content.ContentValues.TAG;
 
-public class TableUsers extends AsyncQueryTable<User> {
+public class UsersTable extends AsyncQueryTable<User> {
 
-	public TableUsers(@NonNull QueryDb db) {
+	public UsersTable(@NonNull QueryDb db) {
 		super(new QueryTable<>(db, UserContract.TABLE, User::fromCursor, UserContract.Sort.DEFAULT, UserContract.Projection.ALL));
 	}
 

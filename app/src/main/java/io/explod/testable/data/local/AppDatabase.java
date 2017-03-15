@@ -7,32 +7,32 @@ import android.support.annotation.Nullable;
 import io.explod.querydb.db.Migration;
 import io.explod.querydb.db.QueryDb;
 
-public class LocalDatabase extends QueryDb {
+public class AppDatabase extends QueryDb {
 
 	private static final String NAME = "app.db";
 
 	private static final int VERSION = VERSION_INITIAL;
 
 	@NonNull
-	private final TableUsers mTableUsers;
+	private final UsersTable mUsersTable;
 
 	@NonNull
-	private final TableRepositories mTableRepositories;
+	private final RepositoriesTable mRepositoriesTable;
 
-	public LocalDatabase(@NonNull Context context) {
+	public AppDatabase(@NonNull Context context) {
 		super(context, NAME, null, VERSION);
-		mTableUsers = new TableUsers(this);
-		mTableRepositories = new TableRepositories(this);
+		mUsersTable = new UsersTable(this);
+		mRepositoriesTable = new RepositoriesTable(this);
 	}
 
 	@NonNull
-	public TableUsers users() {
-		return mTableUsers;
+	public UsersTable users() {
+		return mUsersTable;
 	}
 
 	@NonNull
-	public TableRepositories repositories() {
-		return mTableRepositories;
+	public RepositoriesTable repositories() {
+		return mRepositoriesTable;
 	}
 
 	@Nullable
@@ -41,8 +41,8 @@ public class LocalDatabase extends QueryDb {
 		switch (version) {
 			case VERSION_INITIAL:
 				return (db) -> {
-					new MigrationCreateUsersTable().execute(db);
-					new MigrationCreateRepositoriesTable().execute(db);
+					new Migration001_CreateUsersTable().execute(db);
+					new Migration002_CreateRepositoriesTable().execute(db);
 				};
 			default:
 				return null;

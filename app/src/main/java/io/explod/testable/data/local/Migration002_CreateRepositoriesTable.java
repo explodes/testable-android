@@ -8,7 +8,7 @@ import io.explod.querydb.db.Migration;
 import io.explod.testable.data.local.contract.RepositoryContract;
 import io.explod.testable.data.local.contract.UserContract;
 
-class MigrationCreateRepositoriesTable implements Migration {
+class Migration002_CreateRepositoriesTable implements Migration {
 	@Override
 	public void execute(@NonNull SQLiteDatabase db) {
 		db.execSQL(String.format("CREATE TABLE %s (" +

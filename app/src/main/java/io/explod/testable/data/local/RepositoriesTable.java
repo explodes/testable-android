@@ -15,9 +15,9 @@ import io.reactivex.Single;
 
 import static android.content.ContentValues.TAG;
 
-public class TableRepositories extends AsyncQueryTable<Repository> {
+public class RepositoriesTable extends AsyncQueryTable<Repository> {
 
-	public TableRepositories(@NonNull QueryDb db) {
+	public RepositoriesTable(@NonNull QueryDb db) {
 		super(new QueryTable<>(db, RepositoryContract.TABLE, Repository::fromCursor, RepositoryContract.Sort.DEFAULT, RepositoryContract.Projection.ALL));
 	}
 
