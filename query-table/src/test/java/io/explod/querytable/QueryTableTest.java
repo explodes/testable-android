@@ -19,7 +19,7 @@ import java.util.List;
 
 import io.explod.querydb.CursorUtils;
 import io.explod.querydb.Migration;
-import io.explod.querydb.QueryDbHelper;
+import io.explod.querydb.QueryDb;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -32,7 +32,7 @@ import static junit.framework.Assert.assertTrue;
 @Config(constants = BuildConfig.class)
 public class QueryTableTest {
 
-	private static class TestDatabase extends QueryDbHelper {
+	private static class TestDatabase extends QueryDb {
 
 		public TestDatabase(@NonNull Context context) {
 			super(context, "test.db", null, 1);

@@ -6,11 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import io.explod.querydb.Migration;
-import io.explod.querydb.QueryDbHelper;
+import io.explod.querydb.QueryDb;
 import io.explod.testable.data.local.contract.GithubRepositoryContract;
 import io.explod.testable.data.local.contract.GithubUserContract;
 
-public class AppLocalDatabase extends QueryDbHelper {
+public class AppLocalDatabase extends QueryDb {
 
 	private static final String NAME = "app.db";
 

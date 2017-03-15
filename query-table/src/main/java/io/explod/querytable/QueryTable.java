@@ -13,14 +13,14 @@ import java.util.List;
 
 import io.explod.querydb.CursorUtils;
 import io.explod.querydb.Delete;
-import io.explod.querydb.QueryDbHelper;
+import io.explod.querydb.QueryDb;
 import io.explod.querydb.Select;
 import io.explod.querydb.Update;
 import io.explod.querytable.exception.CreateFailedException;
 import io.explod.querytable.exception.NoRowsFoundException;
 
 /**
- * QueryTable is a wrapper for {@link QueryDbHelper} that provides the most common functionality for
+ * QueryTable is a wrapper for {@link QueryDb} that provides the most common functionality for
  * single-table (or view) queries.
  * <p>
  * It will also map cursor rows into your domain-objects using a provided {@link RowConverter}
@@ -51,7 +51,7 @@ public class QueryTable<T> {
 	private static final String[] EXISTS_PROJECTION = new String[]{"COUNT(*) AS " + EXISTS_COLUMN};
 
 	@NonNull
-	private final QueryDbHelper mQueryDbHelper;
+	private final QueryDb mQueryDb;
 
 	@NonNull
 	private final String mTableName;
@@ -68,14 +68,14 @@ public class QueryTable<T> {
 	/**
 	 * Constructs a new QueryTable wrapper
 	 *
-	 * @param queryDbHelper QueryDbHelper to wrap
+	 * @param queryDb QueryDb to wrap
 	 * @param tableName     Table (or view) to operate on
 	 * @param rowConverter  Domain-object converter
 	 * @param defaultSort   The default ORDER BY clause on select queries
 	 * @param projection    The list of columns required to fully convert a row into your domain-object
 	 */
-	public QueryTable(@NonNull QueryDbHelper queryDbHelper, @NonNull String tableName, @NonNull RowConverter<T> rowConverter, @NonNull String defaultSort, @NonNull String[] projection) {
-		mQueryDbHelper = queryDbHelper;
+	public QueryTable(@NonNull QueryDb queryDb, @NonNull String tableName, @NonNull RowConverter<T> rowConverter, @NonNull String defaultSort, @NonNull String[] projection) {
+		mQueryDb = queryDb;
 		mTableName = tableName;
 		mRowConverter = rowConverter;
 		mDefaultSort = defaultSort;
@@ -112,7 +112,7 @@ public class QueryTable<T> {
 	 */
 	@NonNull
 	public List<T> getAll(@Nullable WhereClause where, @Nullable String sort) {
-		return getAll(mQueryDbHelper.getReadableDatabase(), where, sort);
+		return getAll(mQueryDb.getReadableDatabase(), where, sort);
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class QueryTable<T> {
 	 */
 	@NonNull
 	private Cursor select(@NonNull SQLiteDatabase db, @NonNull String[] projection, @Nullable WhereClause where, @Nullable String sort) {
-		Select select = mQueryDbHelper.select(db)
+		Select select = mQueryDb.select(db)
 			.table(mTableName)
 			.columns(projection);
 
@@ -197,7 +197,7 @@ public class QueryTable<T> {
 	 */
 	@Nullable
 	public T first(@Nullable WhereClause where, @Nullable String sort) {
-		return first(mQueryDbHelper.getReadableDatabase(), where, sort);
+		return first(mQueryDb.getReadableDatabase(), where, sort);
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class QueryTable<T> {
 	 */
 	@Nullable
 	public T byId(long id) {
-		return byId(mQueryDbHelper.getReadableDatabase(), id);
+		return byId(mQueryDb.getReadableDatabase(), id);
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class QueryTable<T> {
 	 * @return Whether or not any rows were found
 	 */
 	public boolean exists(@Nullable WhereClause where) {
-		return exists(mQueryDbHelper.getReadableDatabase(), where);
+		return exists(mQueryDb.getReadableDatabase(), where);
 	}
 
 	/**
@@ -296,7 +296,7 @@ public class QueryTable<T> {
 	 * @return The count of rows matching the {@link WhereClause} or 0 if no rows were found
 	 */
 	public long count(@Nullable WhereClause where) {
-		return count(mQueryDbHelper.getReadableDatabase(), where);
+		return count(mQueryDb.getReadableDatabase(), where);
 	}
 
 	/**
@@ -328,7 +328,7 @@ public class QueryTable<T> {
 	 * @return The ID of the new record, or -1 if the insert failed
 	 */
 	public long insert(@NonNull ContentValues values) {
-		return insert(mQueryDbHelper.getWritableDatabase(), values);
+		return insert(mQueryDb.getWritableDatabase(), values);
 	}
 
 	/**
@@ -339,7 +339,7 @@ public class QueryTable<T> {
 	 * @return The ID of the new record, or -1 if the insert failed
 	 */
 	public long insert(@NonNull SQLiteDatabase db, @NonNull ContentValues values) {
-		return mQueryDbHelper.insert(db)
+		return mQueryDb.insert(db)
 			.table(mTableName)
 			.values(values)
 			.execute();
@@ -353,7 +353,7 @@ public class QueryTable<T> {
 	 * @return The number of updated rows
 	 */
 	public long update(@Nullable WhereClause where, @NonNull ContentValues values) {
-		return update(mQueryDbHelper.getWritableDatabase(), where, values);
+		return update(mQueryDb.getWritableDatabase(), where, values);
 	}
 
 	/**
@@ -365,7 +365,7 @@ public class QueryTable<T> {
 	 * @return The number of updated rows
 	 */
 	public long update(@NonNull SQLiteDatabase db, @Nullable WhereClause where, @NonNull ContentValues values) {
-		Update update = mQueryDbHelper.update(db)
+		Update update = mQueryDb.update(db)
 			.table(mTableName)
 			.values(values);
 
@@ -397,7 +397,7 @@ public class QueryTable<T> {
 	 * @return Number of rows deleted
 	 */
 	public long delete(@Nullable WhereClause where) {
-		return delete(mQueryDbHelper.getWritableDatabase(), where);
+		return delete(mQueryDb.getWritableDatabase(), where);
 	}
 
 	/**
@@ -408,7 +408,7 @@ public class QueryTable<T> {
 	 * @return Number of rows deleted
 	 */
 	public long delete(@NonNull SQLiteDatabase db, @Nullable WhereClause where) {
-		Delete delete = mQueryDbHelper.delete(db)
+		Delete delete = mQueryDb.delete(db)
 			.table(mTableName);
 
 		if (where != null) {
@@ -429,7 +429,7 @@ public class QueryTable<T> {
 	 * @return Number of rows updated or inserted
 	 */
 	public long upsert(@Nullable WhereClause where, @NonNull ContentValues values) {
-		return upsert(mQueryDbHelper.getWritableDatabase(), where, values);
+		return upsert(mQueryDb.getWritableDatabase(), where, values);
 	}
 
 	/**
@@ -473,7 +473,7 @@ public class QueryTable<T> {
 	 */
 	@NonNull
 	public T getOrCreate(@Nullable WhereClause where, @NonNull ContentValues values) {
-		return getOrCreate(mQueryDbHelper.getWritableDatabase(), where, values);
+		return getOrCreate(mQueryDb.getWritableDatabase(), where, values);
 	}
 
 	/**

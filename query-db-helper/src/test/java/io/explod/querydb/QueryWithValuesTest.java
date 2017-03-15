@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import meta.TestQueryDbHelper;
+import meta.TestQueryDb;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -22,12 +22,12 @@ import static org.junit.Assert.assertTrue;
 @Config(constants = BuildConfig.class)
 public class QueryWithValuesTest {
 
-	TestQueryDbHelper db;
+	TestQueryDb db;
 	QueryWithValues<QueryWithValues> query;
 
 	@Before
 	public void createQuery() {
-		db = new TestQueryDbHelper();
+		db = new TestQueryDb();
 		query = new QueryWithValues<QueryWithValues>(db.getWritableDatabase()) {
 		};
 	}

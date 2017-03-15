@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import meta.TestQueryDbHelper;
+import meta.TestQueryDb;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -16,12 +16,12 @@ import static org.junit.Assert.assertSame;
 @Config(constants = BuildConfig.class)
 public class DeleteTest {
 
-	TestQueryDbHelper db;
+	TestQueryDb db;
 	Delete query;
 
 	@Before
 	public void createQuery() {
-		db = new TestQueryDbHelper();
+		db = new TestQueryDb();
 		query = db.delete();
 	}
 

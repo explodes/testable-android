@@ -15,20 +15,20 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 import java.util.List;
 
-import meta.TestQueryDbHelper;
+import meta.TestQueryDb;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
-public class QueryDbHelperTest {
+public class QueryDbTest {
 
-	TestQueryDbHelper db;
+	TestQueryDb db;
 
 	@Before
 	public void createDb() {
-		db = new TestQueryDbHelper();
+		db = new TestQueryDb();
 	}
 
 	@After
@@ -56,7 +56,7 @@ public class QueryDbHelperTest {
 		assertNotNull(db.delete());
 	}
 
-	private class TrackedMigrationsDb extends QueryDbHelper {
+	private class TrackedMigrationsDb extends QueryDb {
 
 		private List<Integer> mMigrations;
 

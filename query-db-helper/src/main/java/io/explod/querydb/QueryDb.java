@@ -9,19 +9,19 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 
-public abstract class QueryDbHelper extends SQLiteOpenHelper {
+public abstract class QueryDb extends SQLiteOpenHelper {
 
 	public static final int VERSION_INITIAL = 1;
 
 	private final int mVersion;
 
-	public QueryDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+	public QueryDb(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
 		super(context, name, factory, version);
 		mVersion = version;
 		init();
 	}
 
-	public QueryDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
+	public QueryDb(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
 		super(context, name, factory, version, errorHandler);
 		mVersion = version;
 		init();

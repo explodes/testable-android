@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import meta.TestQueryDbHelper;
+import meta.TestQueryDb;
 
 import static org.junit.Assert.assertNotEquals;
 
@@ -15,12 +15,12 @@ import static org.junit.Assert.assertNotEquals;
 @Config(constants = BuildConfig.class)
 public class InsertTest {
 
-	TestQueryDbHelper db;
+	TestQueryDb db;
 	Insert query;
 
 	@Before
 	public void createQuery() {
-		db = new TestQueryDbHelper();
+		db = new TestQueryDb();
 		query = db.insert();
 	}
 

@@ -9,11 +9,11 @@ import android.support.annotation.VisibleForTesting;
 import org.robolectric.RuntimeEnvironment;
 
 import io.explod.querydb.Migration;
-import io.explod.querydb.QueryDbHelper;
+import io.explod.querydb.QueryDb;
 
-public class TestQueryDbHelper extends QueryDbHelper {
+public class TestQueryDb extends QueryDb {
 
-	public TestQueryDbHelper() {
+	public TestQueryDb() {
 		super(RuntimeEnvironment.application, ":memory:", null, 2);
 	}
 
