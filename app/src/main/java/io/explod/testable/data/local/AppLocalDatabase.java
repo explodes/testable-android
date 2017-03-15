@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import io.explod.querydb.Migration;
-import io.explod.querydb.QueryDb;
+import io.explod.querydb.db.Migration;
+import io.explod.querydb.db.QueryDb;
 import io.explod.testable.data.local.contract.GithubRepositoryContract;
 import io.explod.testable.data.local.contract.GithubUserContract;
 

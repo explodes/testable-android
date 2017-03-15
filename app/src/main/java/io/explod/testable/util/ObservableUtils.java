@@ -8,7 +8,7 @@ import com.fernandocejas.arrow.optional.Optional;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
-import static io.explod.querydb.CursorUtils.close;
+import static io.explod.querydb.util.CursorUtils.close;
 
 
 public class ObservableUtils {

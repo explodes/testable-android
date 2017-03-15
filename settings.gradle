@@ -1,1 +1,1 @@
-include ':app', ':query-db-helper', ':query-table'
+include ':app', ':query-db'
