@@ -44,7 +44,7 @@ public class QueryTable<T> {
 	@NonNull
 	private final RowConverter<T> mRowConverter;
 
-	@NonNull
+	@Nullable
 	private final String mDefaultSort;
 
 	@NonNull
@@ -59,7 +59,7 @@ public class QueryTable<T> {
 	 * @param defaultSort  The default ORDER BY clause on select queries
 	 * @param projection   The list of columns required to fully convert a row into your domain-object
 	 */
-	public QueryTable(@NonNull QueryDb db, @NonNull String tableName, @NonNull RowConverter<T> rowConverter, @NonNull String defaultSort, @NonNull String[] projection) {
+	public QueryTable(@NonNull QueryDb db, @NonNull String tableName, @NonNull RowConverter<T> rowConverter, @Nullable String defaultSort, @NonNull String[] projection) {
 		mQueryDb = db;
 		mTableName = tableName;
 		mRowConverter = rowConverter;
