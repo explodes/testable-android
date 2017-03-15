@@ -65,7 +65,7 @@ public final class WhereClause {
 	 * Construct a new WhereClause
 	 *
 	 * @param statement Parametrized WHERE clause, such as {@code name LIKE ? AND occurrences > 10 AND weight > ?}
-	 * @param args      Parameter values, such as {@code new String[]{"%rockwilder%", "1000"}}
+	 * @param args      Parameter values, such as "%rockwilder%", "1000"
 	 */
 	public WhereClause(@NonNull String statement, @NonNull String... args) {
 		mStatement = statement;
