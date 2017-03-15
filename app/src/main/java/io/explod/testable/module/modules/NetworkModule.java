@@ -31,19 +31,6 @@ public class NetworkModule {
 	@Provides
 	@NonNull
 	@Singleton
-	GithubService providesGithubService(@NonNull Gson gson, @NonNull OkHttpClient client) {
-		return new Retrofit.Builder()
-			.baseUrl("https://api.github.com/")
-			.addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-			.addConverterFactory(GsonConverterFactory.create(gson))
-			.client(client)
-			.build()
-			.create(GithubService.class);
-	}
-
-	@Provides
-	@NonNull
-	@Singleton
 	OkHttpClient providesOkHttpClient(@NonNull Cache cache) {
 
 		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();

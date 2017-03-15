@@ -4,9 +4,9 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import io.explod.querydb.util.CursorUtils;
-import io.explod.testable.data.local.contract.GithubRepositoryContract;
+import io.explod.testable.data.local.contract.RepositoryContract;
 
-public class GithubRepository {
+public class Repository {
 
 	private long id;
 
@@ -15,11 +15,11 @@ public class GithubRepository {
 	private String name;
 
 	@NonNull
-	public static GithubRepository fromCursor(@NonNull Cursor cursor) {
-		GithubRepository repo = new GithubRepository();
+	public static Repository fromCursor(@NonNull Cursor cursor) {
+		Repository repo = new Repository();
 		repo.id = CursorUtils.getId(cursor);
-		repo.userId = CursorUtils.getLong(cursor, GithubRepositoryContract.Columns.USER_ID);
-		repo.name = CursorUtils.getString(cursor, GithubRepositoryContract.Columns.NAME);
+		repo.userId = CursorUtils.getLong(cursor, RepositoryContract.Columns.USER_ID);
+		repo.name = CursorUtils.getString(cursor, RepositoryContract.Columns.NAME);
 		return repo;
 	}
 

@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import io.explod.testable.data.remote.model.GithubUserRepositoryResponse;
-import io.reactivex.Observable;
+import io.explod.testable.data.remote.model.UserRepositoryResponse;
+import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
@@ -18,6 +18,6 @@ public interface GithubService {
 	@NonNull
 	@GET("/users/{username}/repos")
 	@Headers(ACCEPT_JSON)
-	Observable<List<GithubUserRepositoryResponse>> getUserRepos(@Path("username") String username);
+	Single<List<UserRepositoryResponse>> getUserRepos(@Path("username") String username);
 
 }

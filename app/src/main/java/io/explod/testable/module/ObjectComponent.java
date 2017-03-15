@@ -8,6 +8,7 @@ import io.explod.testable.module.modules.DatabaseModule;
 import io.explod.testable.module.modules.GsonModule;
 import io.explod.testable.module.modules.NetworkModule;
 import io.explod.testable.module.modules.RepoModule;
+import io.explod.testable.module.modules.ServiceModule;
 
 @Component(
 	modules = {
@@ -16,6 +17,7 @@ import io.explod.testable.module.modules.RepoModule;
 		RepoModule.class,
 		GsonModule.class,
 		NetworkModule.class,
+		ServiceModule.class,
 	}
 )
 @Singleton

@@ -16,6 +16,8 @@ import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
+import static io.explod.testable.util.rx.OptionalUtils.optional;
+
 /**
  * Wrapper for {@link QueryTable} that runs actions on Singles subscribed to a particular scheduler.
  *
@@ -251,11 +253,4 @@ public class AsyncQueryTable<T> {
 			.subscribeOn(mScheduler);
 	}
 
-	private static <T> Optional<T> optional(@Nullable T t) {
-		if (t != null) {
-			return Optional.of(t);
-		} else {
-			return Optional.absent();
-		}
-	}
 }

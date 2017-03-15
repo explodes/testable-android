@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import io.explod.testable.App;
-import io.explod.testable.data.local.AppLocalDatabase;
+import io.explod.testable.data.local.LocalDatabase;
 
 @Module
 public class DatabaseModule {
@@ -15,8 +15,8 @@ public class DatabaseModule {
 	@Provides
 	@NonNull
 	@Singleton
-	AppLocalDatabase providesAppLocalDatabase(@NonNull App app) {
-		return new AppLocalDatabase(app);
+	LocalDatabase providesAppLocalDatabase(@NonNull App app) {
+		return new LocalDatabase(app);
 	}
 
 }
