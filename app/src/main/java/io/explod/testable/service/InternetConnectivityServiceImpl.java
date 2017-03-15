@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import io.explod.testable.service.base.InternetConnectivityService;
 import io.reactivex.Observable;
@@ -31,7 +32,7 @@ public class InternetConnectivityServiceImpl implements InternetConnectivityServ
 	public InternetConnectivityServiceImpl() {
 		Context context = getApp();
 		updateStatus(context);
-		receiveConnectionEvents(context);
+		registerReceiver(context);
 	}
 
 	private void updateStatus(@NonNull Context context) {
@@ -42,8 +43,13 @@ public class InternetConnectivityServiceImpl implements InternetConnectivityServ
 		mConnectionStatusSubject.onNext(connected);
 	}
 
-	private void receiveConnectionEvents(@NonNull Context context) {
+	private void registerReceiver(@NonNull Context context) {
 		context.registerReceiver(mConnectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+	}
+
+	@VisibleForTesting
+	void unregisterReceiver() {
+		getApp().unregisterReceiver(mConnectivityReceiver);
 	}
 
 	@Override

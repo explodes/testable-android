@@ -15,8 +15,6 @@ import static meta.module.TestObjectGraph.getTestInjector;
 
 public class TestApp extends App {
 
-	@Inject InternetConnectivityService mTestInternetConnectivityService;
-
 	@NonNull
 	@Override
 	protected TestObjectComponent buildObjectComponent() {
@@ -25,15 +23,4 @@ public class TestApp extends App {
 			.build();
 	}
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		getTestInjector().inject(this);
-	}
-
-	@NonNull
-	public static TestInternetConnectivityService getTestInternetConnectivityService() {
-		// delicious casting...
-		return (TestInternetConnectivityService) ((TestApp) getApp()).mTestInternetConnectivityService;
-	}
 }

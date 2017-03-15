@@ -1,7 +1,7 @@
 package meta.module;
 
-import meta.TestApp;
+import meta.TestModules;
 
 public interface TestInjector {
-	void inject(TestApp target);
+	void inject(TestModules target);
 }

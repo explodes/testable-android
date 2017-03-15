@@ -13,7 +13,7 @@ import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
 import meta.BaseRoboTest;
-import meta.TestApp;
+import meta.TestModules;
 import meta.rx.ImmediateSchedulerRule;
 
 import static org.junit.Assert.assertEquals;
@@ -43,7 +43,7 @@ public class OfflineFirstObservableTest extends BaseRoboTest {
 
 	@Test
 	public void fromOfflineThenOnline_online() throws Exception {
-		TestApp.getTestInternetConnectivityService().setConnected(true);
+		TestModules.getTestInternetConnectivityService().setConnected(true);
 
 		TestSource offline = new TestSource("offline");
 		TestSource online = new TestSource("online");
@@ -68,7 +68,7 @@ public class OfflineFirstObservableTest extends BaseRoboTest {
 
 	@Test
 	public void fromOfflineThenOnline_offline() throws Exception {
-		TestApp.getTestInternetConnectivityService().setConnected(false);
+		TestModules.getTestInternetConnectivityService().setConnected(false);
 
 		TestSource offline = new TestSource("offline");
 		TestSource online = new TestSource("online");
@@ -114,7 +114,7 @@ public class OfflineFirstObservableTest extends BaseRoboTest {
 
 	@Test
 	public void fromOnlineOrOffline_online() throws Exception {
-		TestApp.getTestInternetConnectivityService().setConnected(true);
+		TestModules.getTestInternetConnectivityService().setConnected(true);
 
 		TestSource offline = new TestSource("offline");
 		TestSource online = new TestSource("online");
@@ -138,7 +138,7 @@ public class OfflineFirstObservableTest extends BaseRoboTest {
 
 	@Test
 	public void fromOnlineOrOffline_offline() throws Exception {
-		TestApp.getTestInternetConnectivityService().setConnected(false);
+		TestModules.getTestInternetConnectivityService().setConnected(false);
 
 		TestSource offline = new TestSource("offline");
 		TestSource online = new TestSource("online");
