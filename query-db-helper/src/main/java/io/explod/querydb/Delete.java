@@ -1,4 +1,4 @@
-package io.explod.testable.util.db;
+package io.explod.querydb;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
@@ -17,23 +17,19 @@ public class Delete extends Query<Delete> {
 		super(db);
 	}
 
-	@NonNull
-	public Delete table(@NonNull String table) {
-		super.table(table);
-		return this;
-	}
-
 	public Delete byId(long id) {
-		return where(BaseColumns._ID + " = ?", new String[]{String.valueOf(id)});
+		return where(BaseColumns._ID + " = ?", String.valueOf(id));
 	}
 
 	@NonNull
 	public Delete where(@NonNull String where) {
-		return where(where, null);
+		mWhere = where;
+		mWhereArgs = null;
+		return this;
 	}
 
 	@NonNull
-	public Delete where(@NonNull String where, @Nullable String[] whereArgs) {
+	public Delete where(@NonNull String where, @Nullable String... whereArgs) {
 		mWhere = where;
 		mWhereArgs = whereArgs;
 		return this;

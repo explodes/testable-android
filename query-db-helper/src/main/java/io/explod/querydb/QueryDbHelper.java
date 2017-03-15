@@ -1,4 +1,4 @@
-package io.explod.testable.util.db;
+package io.explod.querydb;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;

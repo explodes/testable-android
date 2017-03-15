@@ -1,4 +1,4 @@
-package io.explod.testable.util.db;
+package io.explod.querydb;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -6,6 +6,8 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+
+@SuppressWarnings("unchecked")
 abstract class QueryWithValues<T extends Query> extends Query<T> {
 
 	@Nullable

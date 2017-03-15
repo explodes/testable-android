@@ -1,4 +1,4 @@
-package io.explod.testable.util.db;
+package io.explod.querydb;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
@@ -17,21 +17,17 @@ public class Update extends QueryWithValues<Update> {
 		super(db);
 	}
 
-	@NonNull
-	public Update table(@NonNull String table) {
-		super.table(table);
-		return this;
-	}
-
 	public Update byId(long id) {
-		return where(BaseColumns._ID + " = ?", new String[]{String.valueOf(id)});
+		return where(BaseColumns._ID + " = ?", String.valueOf(id));
 	}
 
 	public Update where(@NonNull String whereClause) {
-		return where(whereClause, null);
+		mWhere = whereClause;
+		mWhereArgs = null;
+		return this;
 	}
 
-	public Update where(@NonNull String whereClause, @Nullable String[] whereArgs) {
+	public Update where(@NonNull String whereClause, @Nullable String... whereArgs) {
 		mWhere = whereClause;
 		mWhereArgs = whereArgs;
 		return this;

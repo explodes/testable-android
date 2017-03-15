@@ -1,4 +1,4 @@
-package io.explod.testable.util.db;
+package io.explod.querydb;
 
 import android.database.Cursor;
 import android.provider.BaseColumns;
@@ -12,7 +12,7 @@ public final class CursorUtils {
 	private CursorUtils() {/* no instance */}
 
 	public static void close(@Nullable Cursor cursor) {
-		if (cursor != null) cursor.close();
+		if (cursor != null && !cursor.isClosed()) cursor.close();
 	}
 
 	public static long getId(@NonNull Cursor cursor) {

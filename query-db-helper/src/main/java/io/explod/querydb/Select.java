@@ -1,4 +1,4 @@
-package io.explod.testable.util.db;
+package io.explod.querydb;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -34,28 +34,24 @@ public class Select extends Query<Select> {
 	}
 
 	@NonNull
-	public Select table(@NonNull String table) {
-		super.table(table);
-		return this;
-	}
-
-	@NonNull
-	public Select columns(@NonNull String[] columns) {
+	public Select columns(@NonNull String... columns) {
 		mColumns = columns;
 		return this;
 	}
 
 	public Select byId(long id) {
-		return where(BaseColumns._ID + " = ?", new String[]{String.valueOf(id)});
+		return where(BaseColumns._ID + " = ?", String.valueOf(id));
 	}
 
 	@NonNull
 	public Select where(@NonNull String where) {
-		return where(where, null);
+		mWhere = where;
+		mWhereArgs = null;
+		return this;
 	}
 
 	@NonNull
-	public Select where(@NonNull String where, @Nullable String[] whereArgs) {
+	public Select where(@NonNull String where, @Nullable String... whereArgs) {
 		mWhere = where;
 		mWhereArgs = whereArgs;
 		return this;

@@ -1,4 +1,4 @@
-package io.explod.testable.util.db;
+package io.explod.querydb;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
