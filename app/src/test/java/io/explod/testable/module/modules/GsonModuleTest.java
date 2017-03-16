@@ -71,4 +71,12 @@ public class GsonModuleTest extends BaseRoboTest {
 		assertEquals(timestamp(2017, 3, 15, 0, 0, 0, 0, TimeZone.getDefault()), parsed);
 	}
 
+	@Test
+	public void serializeDate() {
+		TypeAdapter<Date> adapter = gson.getAdapter(Date.class);
+
+		String serialized = adapter.toJson(timestamp(2017, 3, 15, 20, 49, 5, 333, TimeZone.getTimeZone("UTC")));
+		assertEquals("\"2017-03-15T20:49:05.333+0000\"", serialized);
+	}
+
 }

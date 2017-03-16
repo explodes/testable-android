@@ -20,6 +20,7 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import dagger.Module;
 import dagger.Provides;
@@ -28,6 +29,13 @@ import dagger.Provides;
 public class GsonModule {
 
 	private static final String OUTPUT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+
+	private static final SimpleDateFormat OUTPUT_DATE_FORMATTER;
+
+	static {
+		OUTPUT_DATE_FORMATTER = new SimpleDateFormat(OUTPUT_DATE_FORMAT, Locale.US);
+		OUTPUT_DATE_FORMATTER.setTimeZone(TimeZone.getTimeZone("UTC"));
+	}
 
 	private static final SimpleDateFormat[] DATE_FORMATS = new SimpleDateFormat[]{
 		new SimpleDateFormat(OUTPUT_DATE_FORMAT, Locale.US),
@@ -42,7 +50,7 @@ public class GsonModule {
 	}
 
 	@VisibleForTesting
-	Gson build(FieldNamingPolicy fieldNamingPolicy) {
+	Gson build(@NonNull FieldNamingPolicy fieldNamingPolicy) {
 		return new GsonBuilder()
 			.registerTypeAdapter(Date.class, new DateFormatter())
 			.setFieldNamingPolicy(fieldNamingPolicy)
@@ -52,7 +60,7 @@ public class GsonModule {
 	private static class DateFormatter implements JsonDeserializer<Date>, JsonSerializer<Date> {
 
 		@Override
-		public Date deserialize(@NonNull JsonElement jsonElement, Type typeOfDest, JsonDeserializationContext context) throws JsonParseException {
+		public Date deserialize(@NonNull JsonElement jsonElement, @NonNull Type typeOfDest, @NonNull JsonDeserializationContext context) throws JsonParseException {
 			String value = jsonElement.getAsString().replaceAll("Z$", "+0000");
 			for (SimpleDateFormat format : DATE_FORMATS) {
 				Date parsed;
@@ -69,11 +77,11 @@ public class GsonModule {
 
 		@Nullable
 		@Override
-		public JsonElement serialize(@Nullable Date src, Type typeOfSrc, JsonSerializationContext context) {
+		public JsonElement serialize(@Nullable Date src, @NonNull Type typeOfSrc, @NonNull JsonSerializationContext context) {
 			if (src == null) {
 				return null;
 			}
-			String formatted = new SimpleDateFormat(OUTPUT_DATE_FORMAT, Locale.US).format(src);
+			String formatted = OUTPUT_DATE_FORMATTER.format(src);
 			return new JsonPrimitive(formatted);
 		}
 	}
