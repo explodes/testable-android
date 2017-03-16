@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(RobolectricTestRunner.class)
 public class OfflineFirstObservableTest extends BaseRoboTest {
 
 	@Rule public ImmediateSchedulerRule immediate = new ImmediateSchedulerRule();
@@ -43,7 +40,7 @@ public class OfflineFirstObservableTest extends BaseRoboTest {
 
 	@Test
 	public void fromOfflineThenOnline_online() throws Exception {
-		TestModules.getTestInternetConnectivityService().setConnected(true);
+		new TestModules().testInternetConnectivityService.setConnected(true);
 
 		TestSource offline = new TestSource("offline");
 		TestSource online = new TestSource("online");
@@ -68,7 +65,7 @@ public class OfflineFirstObservableTest extends BaseRoboTest {
 
 	@Test
 	public void fromOfflineThenOnline_offline() throws Exception {
-		TestModules.getTestInternetConnectivityService().setConnected(false);
+		new TestModules().testInternetConnectivityService.setConnected(false);
 
 		TestSource offline = new TestSource("offline");
 		TestSource online = new TestSource("online");
@@ -114,7 +111,7 @@ public class OfflineFirstObservableTest extends BaseRoboTest {
 
 	@Test
 	public void fromOnlineOrOffline_online() throws Exception {
-		TestModules.getTestInternetConnectivityService().setConnected(true);
+		new TestModules().testInternetConnectivityService.setConnected(true);
 
 		TestSource offline = new TestSource("offline");
 		TestSource online = new TestSource("online");
@@ -138,7 +135,7 @@ public class OfflineFirstObservableTest extends BaseRoboTest {
 
 	@Test
 	public void fromOnlineOrOffline_offline() throws Exception {
-		TestModules.getTestInternetConnectivityService().setConnected(false);
+		new TestModules().testInternetConnectivityService.setConnected(false);
 
 		TestSource offline = new TestSource("offline");
 		TestSource online = new TestSource("online");

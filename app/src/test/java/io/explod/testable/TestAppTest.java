@@ -3,8 +3,6 @@ package io.explod.testable;
 import android.app.Application;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import meta.BaseRoboTest;
@@ -15,7 +13,6 @@ import meta.module.modules.TestInternetConnectivityService;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(RobolectricTestRunner.class)
 public class TestAppTest extends BaseRoboTest {
 
 	@Test
@@ -27,7 +24,7 @@ public class TestAppTest extends BaseRoboTest {
 
 	@Test
 	public void canToggleInternetConnectivity() throws Exception {
-		TestInternetConnectivityService service = TestModules.getTestInternetConnectivityService();
+		TestInternetConnectivityService service = new TestModules().testInternetConnectivityService;
 
 		service.setConnected(true);
 		assertTrue(service.isConnected());

@@ -11,18 +11,15 @@ import static meta.module.TestObjectGraph.getTestInjector;
 
 public class TestModules {
 
+	@Inject
+	InternetConnectivityService internetConnectivityService;
+
 	@NonNull
-	private static final TestModules INSTANCE = new TestModules();
+	public final TestInternetConnectivityService testInternetConnectivityService;
 
-	@Inject InternetConnectivityService testInternetConnectivityService;
-
-	private TestModules() {
+	public TestModules() {
 		getTestInjector().inject(this);
-	}
-
-	@NonNull
-	public static TestInternetConnectivityService getTestInternetConnectivityService() {
-		return (TestInternetConnectivityService) INSTANCE.testInternetConnectivityService;
+		testInternetConnectivityService = (TestInternetConnectivityService) internetConnectivityService;
 	}
 
 }

@@ -2,7 +2,10 @@ package io.explod.testable.util;
 
 import android.support.annotation.NonNull;
 
-public class TagUtils {
+public final class TagUtils {
+
+	private TagUtils() {
+	}
 
 	/**
 	 * Create a TAG for a given class

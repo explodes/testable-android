@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import meta.BaseRoboTest;
@@ -20,7 +18,6 @@ import static meta.FragUtils.resumeFragment;
 import static meta.FragUtils.stopFragment;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(RobolectricTestRunner.class)
 public class BaseMvpFragmentTest extends BaseRoboTest {
 
 	private interface TestView extends BaseFragmentView {

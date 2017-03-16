@@ -51,7 +51,7 @@ public class BaseRxPresenter<V extends BaseView> extends MvpBasePresenter<V> {
 	 */
 	protected <T> Observable<T> bind(@NonNull final Object unbindKey, @NonNull Observable<T> source) {
 		Observable<Object> until = mDetachSubject
-			.filter(key -> GLOBAL_UNBIND.equals(unbindKey) || key.equals(unbindKey))
+			.filter(key -> GLOBAL_UNBIND.equals(key) || key.equals(unbindKey))
 			.take(1);
 
 		return source
