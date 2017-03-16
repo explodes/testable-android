@@ -12,20 +12,11 @@ import io.explod.querydb.BuildConfig;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertArrayEquals;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class WhereClauseTest {
-
-	private static <T> void assertArrayEquals(T[] one, T[] two) {
-		if (one == null && two == null) return;
-		if (one == null) assertNotNull(one);
-		if (two == null) assertNotNull(two);
-		if (one.length != two.length) assertEquals(one.length, two.length);
-		for (int index = 0, N = one.length; index < N; index++) {
-			assertEquals(one[index], two[index]);
-		}
-	}
 
 	@Test
 	public void fromContentValues_single() throws Exception {

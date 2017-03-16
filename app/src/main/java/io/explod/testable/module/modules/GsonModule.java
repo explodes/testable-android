@@ -3,6 +3,7 @@ package io.explod.testable.module.modules;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -32,7 +33,6 @@ public class GsonModule {
 		new SimpleDateFormat(OUTPUT_DATE_FORMAT, Locale.US),
 		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US),
 		new SimpleDateFormat("yyyy-MM-dd", Locale.US),
-		new SimpleDateFormat("MMM d, yyyy HH:mm:ss", Locale.US),
 	};
 
 	@Provides
@@ -41,7 +41,8 @@ public class GsonModule {
 		return build(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 	}
 
-	private Gson build(FieldNamingPolicy fieldNamingPolicy) {
+	@VisibleForTesting
+	Gson build(FieldNamingPolicy fieldNamingPolicy) {
 		return new GsonBuilder()
 			.registerTypeAdapter(Date.class, new DateFormatter())
 			.setFieldNamingPolicy(fieldNamingPolicy)

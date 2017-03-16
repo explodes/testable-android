@@ -109,4 +109,56 @@ public class BaseRxPresenterTest extends BaseRoboTest {
 		}
 	}
 
+	@Test
+	public void detachView_no_retain() throws Exception {
+		Disposable a = null;
+		Disposable b = null;
+		Disposable c = null;
+		try {
+			BehaviorSubject<Boolean> observable = BehaviorSubject.create();
+			a = presenter.bind(observable).subscribe();
+			b = presenter.bind("key1", observable).subscribe();
+			c = presenter.bind("key2", observable).subscribe();
+			assertFalse(a.isDisposed());
+			assertFalse(b.isDisposed());
+			assertFalse(c.isDisposed());
+
+			presenter.detachView(false);
+
+			assertTrue(a.isDisposed());
+			assertTrue(b.isDisposed());
+			assertTrue(c.isDisposed());
+		} finally {
+			dispose(a);
+			dispose(b);
+			dispose(c);
+		}
+	}
+
+	@Test
+	public void detachView_retain() throws Exception {
+		Disposable a = null;
+		Disposable b = null;
+		Disposable c = null;
+		try {
+			BehaviorSubject<Boolean> observable = BehaviorSubject.create();
+			a = presenter.bind(observable).subscribe();
+			b = presenter.bind("key1", observable).subscribe();
+			c = presenter.bind("key2", observable).subscribe();
+			assertFalse(a.isDisposed());
+			assertFalse(b.isDisposed());
+			assertFalse(c.isDisposed());
+
+			presenter.detachView(true);
+
+			assertTrue(a.isDisposed());
+			assertTrue(b.isDisposed());
+			assertTrue(c.isDisposed());
+		} finally {
+			dispose(a);
+			dispose(b);
+			dispose(c);
+		}
+	}
+
 }
