@@ -70,7 +70,7 @@ public class AppRepo {
 					(results, next) -> {
 						// save the user because we now know who it is
 						results.user = next.first;
-						// add the nest repo to the list of repos
+						// add the next repo to the list of repos
 						results.repos.add(next.second);
 					}
 				)
