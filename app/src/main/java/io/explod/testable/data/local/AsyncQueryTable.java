@@ -104,7 +104,7 @@ class AsyncQueryTable<T> {
 	 * @see QueryTable#firstSorted(String, String, String...)
 	 */
 	@NonNull
-	public Single<Optional<T>> first(@Nullable String sort, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+	public Single<Optional<T>> firstSorted(@Nullable String sort, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
 		return Single.fromCallable(() -> optional(mQueryTable.firstSorted(sort, where, whereArgs)))
 			.subscribeOn(mScheduler);
 	}

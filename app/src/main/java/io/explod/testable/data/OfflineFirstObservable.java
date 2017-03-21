@@ -74,8 +74,9 @@ public class OfflineFirstObservable<T> {
 	}
 
 	/**
-	 * Workaround class to "inject" InternetConnectivityService into the typed parent class as
-	 * Dagger doesn't allow injecting into typed or raw instances.
+	 * Workaround class to "inject" InternetConnectivityService
+	 * into the typed parent class as Dagger doesn't allow
+	 * injecting into typed or raw instances.
 	 *
 	 * @hide Visible only for injection
 	 */
