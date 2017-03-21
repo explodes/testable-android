@@ -2,6 +2,9 @@ package io.explod.testable.ui.fragment.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,7 +24,7 @@ import io.explod.testable.data.local.model.User;
 import io.explod.testable.ui.fragment.BaseFragment;
 
 public class HomeFragment extends BaseFragment<HomeFragmentView, HomeFragmentPresenter>
-	implements HomeFragmentView {
+	implements HomeFragmentView, RepoAdapter.OnClick {
 
 	@NonNull
 	public static HomeFragment newInstance() {
@@ -57,6 +60,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentView, HomeFragmentPre
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
 		mRepoAdapter = new RepoAdapter();
+		mRepoAdapter.setClickListener(this);
 		mRecyclerView.setAdapter(mRepoAdapter);
 	}
 
@@ -80,5 +84,23 @@ public class HomeFragment extends BaseFragment<HomeFragmentView, HomeFragmentPre
 		if (context == null) return;
 
 		Toast.makeText(context, "Error getting repositories: " + t.toString(), Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void onClick(int position, @NonNull Repository repo) {
+		presenter.onClickRepo(repo);
+	}
+
+	@Override
+	public void openUrl(@NonNull String url) {
+		Context context = getContext();
+		if (context == null) return;
+
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse(url));
+
+		if (context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
+			startActivity(intent);
+		}
 	}
 }

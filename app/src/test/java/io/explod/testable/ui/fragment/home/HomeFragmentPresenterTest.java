@@ -12,6 +12,7 @@ import meta.rx.ImmediateSchedulerRule;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class HomeFragmentPresenterTest extends BaseRoboTest {
 
@@ -36,6 +37,16 @@ public class HomeFragmentPresenterTest extends BaseRoboTest {
 		presenter.onResume();
 
 		verify(view, timeout().times(2)).setRepositories(anyListOf(Repository.class));
+	}
+
+	@Test
+	public void onClickRepo() {
+		Repository repo = mock(Repository.class);
+		when(repo.getName()).thenReturn("foo-repo");
+
+		presenter.onClickRepo(repo);
+
+		verify(view).openUrl("https://github.com/explodes/foo-repo");
 	}
 
 }

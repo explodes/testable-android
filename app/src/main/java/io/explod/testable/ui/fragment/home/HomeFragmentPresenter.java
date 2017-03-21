@@ -38,7 +38,7 @@ public class HomeFragmentPresenter extends BaseFragmentPresenter<HomeFragmentVie
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(
 				this::onRepositories,
-				this::onNetworkError
+				this::onError
 			);
 	}
 
@@ -50,10 +50,17 @@ public class HomeFragmentPresenter extends BaseFragmentPresenter<HomeFragmentVie
 		view.setRepositories(userRepos.second);
 	}
 
-	private void onNetworkError(@NonNull Throwable t) {
+	private void onError(@NonNull Throwable t) {
 		HomeFragmentView view = getView();
 		if (view == null) return;
 
 		view.showError(t);
+	}
+
+	public void onClickRepo(@NonNull Repository repo) {
+		HomeFragmentView view = getView();
+		if (view == null) return;
+
+		view.openUrl("https://github.com/" + USERNAME + "/" + repo.getName());
 	}
 }

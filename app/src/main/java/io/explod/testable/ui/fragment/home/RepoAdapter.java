@@ -1,6 +1,7 @@
 package io.explod.testable.ui.fragment.home;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,10 +20,21 @@ import io.explod.testable.data.local.model.Repository;
 
 class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.RepoViewHolder> {
 
+	public interface OnClick {
+		void onClick(int position, @NonNull Repository repo);
+	}
+
+	@Nullable
+	private OnClick mClickListener;
+
 	private List<Repository> mRepositories;
 
 	public RepoAdapter() {
 		setHasStableIds(true);
+	}
+
+	public void setClickListener(@Nullable OnClick clickListener) {
+		mClickListener = clickListener;
 	}
 
 	public void setRepositories(@Nullable List<Repository> repositories) {
@@ -75,7 +87,16 @@ class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.RepoViewHolder> {
 		return mRepositories.get(position).getId();
 	}
 
-	static class RepoViewHolder extends RecyclerView.ViewHolder {
+	private void fireOnClick(int position) {
+		if (mClickListener != null) {
+			Repository repo = mRepositories.get(position);
+			if (repo != null) {
+				mClickListener.onClick(position, repo);
+			}
+		}
+	}
+
+	class RepoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 		@BindView(R.id.text_repository_title)
 		TextView titleText;
@@ -89,6 +110,12 @@ class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.RepoViewHolder> {
 		RepoViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
+			itemView.setOnClickListener(this);
+		}
+
+		@Override
+		public void onClick(View v) {
+			fireOnClick(getAdapterPosition());
 		}
 	}
 

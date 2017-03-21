@@ -16,4 +16,5 @@ interface HomeFragmentView extends BaseFragmentView {
 
 	void showError(@NonNull Throwable t);
 
+	void openUrl(@NonNull String url);
 }

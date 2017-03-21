@@ -55,4 +55,9 @@ public class HomeFragmentTest extends BaseRoboTest {
 		assertEquals(3, frag.mRepoAdapter.getItemCount());
 	}
 
+	@Test
+	public void openUrl() {
+
+	}
+
 }
