@@ -3,7 +3,6 @@ package io.explod.testable.ui.fragment.home;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.explod.testable.R;
 import io.explod.testable.data.local.model.Repository;
-
-import static android.content.ContentValues.TAG;
 
 class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.RepoViewHolder> {
 
@@ -42,9 +39,6 @@ class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.RepoViewHolder> {
 	@Override
 	public void onBindViewHolder(RepoViewHolder holder, int position) {
 		Repository repo = mRepositories.get(position);
-
-		Log.d(TAG, "bind " + repo.getName() + " :: " + repo.getDescription());
-
 		holder.titleText.setText(repo.getName());
 		holder.descriptionText.setText(repo.getDescription());
 	}
