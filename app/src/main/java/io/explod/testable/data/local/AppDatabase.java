@@ -11,7 +11,9 @@ public class AppDatabase extends QueryDb {
 
 	private static final String NAME = "app.db";
 
-	private static final int VERSION = VERSION_INITIAL;
+	private static final int VERSION_REPO_DESCRIPTION = VERSION_INITIAL + 1;
+
+	private static final int VERSION = VERSION_REPO_DESCRIPTION;
 
 	@NonNull
 	private final UsersTable mUsersTable;
@@ -44,6 +46,8 @@ public class AppDatabase extends QueryDb {
 					new Migration001_CreateUsersTable().execute(db);
 					new Migration002_CreateRepositoriesTable().execute(db);
 				};
+			case VERSION_REPO_DESCRIPTION:
+				return new Migration003_AddRepositoriesDescription();
 			default:
 				return null;
 		}

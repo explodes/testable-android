@@ -70,7 +70,7 @@ public class AppRepo {
 		@NonNull
 		private Observable<Object> saveRepositories(@NonNull User user, @NonNull List<UserRepositoryResponse> repos) {
 			return Observable.fromIterable(repos)
-				.flatMapSingle(repo -> mAppDatabase.repositories().getOrCreate(user.getId(), repo.name));
+				.flatMapSingle(repo -> mAppDatabase.repositories().getOrUpdate(user.getId(), repo.name, repo.description == null ? "" : repo.description));
 		}
 	}
 }

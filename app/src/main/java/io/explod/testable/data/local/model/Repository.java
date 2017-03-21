@@ -14,12 +14,15 @@ public class Repository {
 
 	private String name;
 
+	private String description;
+
 	@NonNull
 	public static Repository fromCursor(@NonNull Cursor cursor) {
 		Repository repo = new Repository();
 		repo.id = CursorUtils.getId(cursor);
 		repo.userId = CursorUtils.getLong(cursor, RepositoryContract.Columns.USER_ID);
 		repo.name = CursorUtils.getString(cursor, RepositoryContract.Columns.NAME);
+		repo.description = CursorUtils.getString(cursor, RepositoryContract.Columns.DESCRIPTION);
 		return repo;
 	}
 
@@ -33,5 +36,9 @@ public class Repository {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 }

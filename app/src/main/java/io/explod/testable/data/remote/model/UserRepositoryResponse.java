@@ -12,5 +12,7 @@ public class UserRepositoryResponse {
 
 	public String name;
 
+	public String description;
+
 	public Owner owner;
 }
