@@ -12,8 +12,9 @@ public class AppDatabase extends QueryDb {
 	private static final String NAME = "app.db";
 
 	private static final int VERSION_REPO_DESCRIPTION = VERSION_INITIAL + 1;
+	private static final int VERSION_REPO_STARS_WATCHERS_FORKS = VERSION_REPO_DESCRIPTION + 1;
 
-	private static final int VERSION = VERSION_REPO_DESCRIPTION;
+	private static final int VERSION = VERSION_REPO_STARS_WATCHERS_FORKS;
 
 	@NonNull
 	private final UsersTable mUsersTable;
@@ -48,6 +49,8 @@ public class AppDatabase extends QueryDb {
 				};
 			case VERSION_REPO_DESCRIPTION:
 				return new Migration003_AddRepositoriesDescription();
+			case VERSION_REPO_STARS_WATCHERS_FORKS:
+				return new Migration004_AddRepositoriesStarsWatchersForks();
 			default:
 				return null;
 		}

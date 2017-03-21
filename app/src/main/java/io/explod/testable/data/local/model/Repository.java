@@ -16,6 +16,12 @@ public class Repository {
 
 	private String description;
 
+	private int forks;
+
+	private int watchers;
+
+	private int stars;
+
 	@NonNull
 	public static Repository fromCursor(@NonNull Cursor cursor) {
 		Repository repo = new Repository();
@@ -23,6 +29,9 @@ public class Repository {
 		repo.userId = CursorUtils.getLong(cursor, RepositoryContract.Columns.USER_ID);
 		repo.name = CursorUtils.getString(cursor, RepositoryContract.Columns.NAME);
 		repo.description = CursorUtils.getString(cursor, RepositoryContract.Columns.DESCRIPTION);
+		repo.forks = CursorUtils.getInt(cursor, RepositoryContract.Columns.FORKS);
+		repo.watchers = CursorUtils.getInt(cursor, RepositoryContract.Columns.WATCHERS);
+		repo.stars = CursorUtils.getInt(cursor, RepositoryContract.Columns.STARS);
 		return repo;
 	}
 
@@ -40,5 +49,17 @@ public class Repository {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public int getForks() {
+		return forks;
+	}
+
+	public int getWatchers() {
+		return watchers;
+	}
+
+	public int getStars() {
+		return stars;
 	}
 }

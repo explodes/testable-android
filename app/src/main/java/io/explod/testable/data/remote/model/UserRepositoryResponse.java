@@ -18,4 +18,13 @@ public class UserRepositoryResponse {
 	public String description;
 
 	public Owner owner;
+
+	@SerializedName("forks_count")
+	public int forks;
+
+	@SerializedName("stargazers_count")
+	public int stars;
+
+	@SerializedName("watchers_count")
+	public int watchers;
 }

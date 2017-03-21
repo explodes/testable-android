@@ -41,7 +41,7 @@ public class AppRepo {
 
 		Single<Pair<User, List<Repository>>> online = Single.zip(mAppDatabase.users().getOrCreate(username), mGithubService.getUserRepos(username), Pair::create)
 			.flatMap(userRepos -> Observable.fromIterable(userRepos.second)
-				.flatMapSingle(repo -> mAppDatabase.repositories().upsert(userRepos.first.getId(), repo.name, repo.description == null ? "" : repo.description))
+				.flatMapSingle(repo -> mAppDatabase.repositories().upsert(userRepos.first.getId(), repo.name, repo.description == null ? "" : repo.description, repo.forks, repo.stars, repo.watchers))
 				.count())
 			.flatMap(ignored -> offline);
 

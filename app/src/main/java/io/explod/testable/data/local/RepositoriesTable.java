@@ -19,11 +19,14 @@ public class RepositoriesTable extends AsyncQueryTable<Repository> {
 	}
 
 	@NonNull
-	public Single<Long> upsert(long userId, @NonNull String name, @NonNull String description) {
+	public Single<Long> upsert(long userId, @NonNull String name, @NonNull String description, int forks, int stars, int watchers) {
 		ContentValues values = new ContentValues();
 		values.put(RepositoryContract.Columns.USER_ID, userId);
 		values.put(RepositoryContract.Columns.NAME, name);
 		values.put(RepositoryContract.Columns.DESCRIPTION, description);
+		values.put(RepositoryContract.Columns.FORKS, forks);
+		values.put(RepositoryContract.Columns.WATCHERS, watchers);
+		values.put(RepositoryContract.Columns.STARS, stars);
 
 		String where = String.format("%s = ? AND %s = ?", RepositoryContract.Columns.USER_ID, RepositoryContract.Columns.NAME);
 
