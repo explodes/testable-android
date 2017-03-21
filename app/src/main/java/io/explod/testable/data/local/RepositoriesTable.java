@@ -27,7 +27,7 @@ public class RepositoriesTable extends AsyncQueryTable<Repository> {
 		values.put(RepositoryContract.Columns.NAME, name);
 		values.put(RepositoryContract.Columns.DESCRIPTION, description);
 
-		String where = String.format("%s = ? AND %s = ?", RepositoryContract.Columns._ID, RepositoryContract.Columns.NAME);
+		String where = String.format("%s = ? AND %s = ?", RepositoryContract.Columns.USER_ID, RepositoryContract.Columns.NAME);
 
 		return upsert(values, where, String.valueOf(userId), name)
 			.flatMap(this::byId)
