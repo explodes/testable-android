@@ -17,6 +17,8 @@ import java.util.TimeZone;
 import meta.BaseRoboTest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class GsonModuleTest extends BaseRoboTest {
 
@@ -72,11 +74,29 @@ public class GsonModuleTest extends BaseRoboTest {
 	}
 
 	@Test
+	public void parseDate_unknown_format() throws Exception {
+		TypeAdapter<Date> adapter = gson.getAdapter(Date.class);
+
+		Exception ex = null;
+		Date parsed = null;
+
+		try {
+			parsed = adapter.fromJson("\"452839284284Z-66:33902\"");
+		} catch (Exception e) {
+			ex = e;
+		}
+
+		assertNull(parsed);
+		assertNotNull(ex);
+	}
+
+	@Test
 	public void serializeDate() {
 		TypeAdapter<Date> adapter = gson.getAdapter(Date.class);
 
 		String serialized = adapter.toJson(timestamp(2017, 3, 15, 20, 49, 5, 333, TimeZone.getTimeZone("UTC")));
 		assertEquals("\"2017-03-15T20:49:05.333+0000\"", serialized);
+		assertEquals("null", adapter.toJson(null));
 	}
 
 }
