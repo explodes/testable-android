@@ -12,7 +12,6 @@ import io.explod.testable.data.local.AppDatabase;
 import io.explod.testable.data.local.model.Repository;
 import io.explod.testable.data.local.model.User;
 import io.explod.testable.data.remote.GithubService;
-import io.explod.testable.data.remote.model.UserRepositoryResponse;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -32,45 +31,22 @@ public class AppRepo {
 
 	@NonNull
 	public OfflineFirstObservable<Pair<User, List<Repository>>> getRepositories(@NonNull String username) {
-		return new GetRepositoriesByUsername().getOfflineFirstObservable(username);
-	}
 
-	private class GetRepositoriesByUsername {
-
-		@NonNull
-		OfflineFirstObservable<Pair<User, List<Repository>>> getOfflineFirstObservable(@NonNull String username) {
-			return OfflineFirstObservable.from(
-				getRepositoriesOffline(username),
-				// get from online, save them, and return our offline results
-				getRepositoriesOnline(username).flatMap(ignored -> getRepositoriesOffline(username))
+		Single<Pair<User, List<Repository>>> offline = mAppDatabase.users()
+			.getOrCreate(username)
+			.flatMap(user -> mAppDatabase.repositories()
+				.getAllForUser(user.getId())
+				.map(repos -> Pair.create(user, repos))
 			);
-		}
 
-		@NonNull
-		private Single<Pair<User, List<Repository>>> getRepositoriesOffline(@NonNull String username) {
-			return mAppDatabase.users()
-				.getOrCreate(username)
-				.flatMap(user -> mAppDatabase.repositories()
-					.getAllForUser(user.getId())
-					.map(repos -> Pair.create(user, repos))
-				);
-		}
+		Single<Pair<User, List<Repository>>> online = Single.zip(mAppDatabase.users().getOrCreate(username), mGithubService.getUserRepos(username), Pair::create)
+			.flatMap(userRepos -> Observable.fromIterable(userRepos.second)
+				.flatMapSingle(repo -> mAppDatabase.repositories().upsert(userRepos.first.getId(), repo.name, repo.description == null ? "" : repo.description))
+				.count())
+			.flatMap(ignored -> offline);
 
-		@NonNull
-		private Single<Object> getRepositoriesOnline(@NonNull String username) {
-			Single<User> userCreate = mAppDatabase.users().getOrCreate(username);
-			Single<List<UserRepositoryResponse>> reposFetch = mGithubService.getUserRepos(username);
+		return OfflineFirstObservable.from(offline, online);
 
-			return Single.zip(userCreate, reposFetch, Pair::create)
-				.flatMapObservable(userRepos -> saveRepositories(userRepos.first, userRepos.second))
-				.collect(() -> Boolean.TRUE, (a, b) -> {
-				});
-		}
-
-		@NonNull
-		private Observable<Object> saveRepositories(@NonNull User user, @NonNull List<UserRepositoryResponse> repos) {
-			return Observable.fromIterable(repos)
-				.flatMapSingle(repo -> mAppDatabase.repositories().getOrUpdate(user.getId(), repo.name, repo.description == null ? "" : repo.description));
-		}
 	}
+
 }

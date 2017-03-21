@@ -4,8 +4,6 @@ package io.explod.testable.data.local;
 import android.content.ContentValues;
 import android.support.annotation.NonNull;
 
-import com.fernandocejas.arrow.optional.Optional;
-
 import java.util.List;
 
 import io.explod.querydb.db.QueryDb;
@@ -21,7 +19,7 @@ public class RepositoriesTable extends AsyncQueryTable<Repository> {
 	}
 
 	@NonNull
-	public Single<Repository> getOrUpdate(long userId, @NonNull String name, @NonNull String description) {
+	public Single<Long> upsert(long userId, @NonNull String name, @NonNull String description) {
 		ContentValues values = new ContentValues();
 		values.put(RepositoryContract.Columns.USER_ID, userId);
 		values.put(RepositoryContract.Columns.NAME, name);
@@ -29,9 +27,7 @@ public class RepositoriesTable extends AsyncQueryTable<Repository> {
 
 		String where = String.format("%s = ? AND %s = ?", RepositoryContract.Columns.USER_ID, RepositoryContract.Columns.NAME);
 
-		return upsert(values, where, String.valueOf(userId), name)
-			.flatMap(this::byId)
-			.map(Optional::get);
+		return upsert(values, where, String.valueOf(userId), name);
 	}
 
 	@NonNull
