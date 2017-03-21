@@ -19,6 +19,12 @@ public class NoRowsFoundExceptionTest {
 	}
 
 	@Test
+	public void init_null_where_args() {
+		NoRowsFoundException ex = new NoRowsFoundException("table", null, (String[]) null);
+		assertNotNull(ex);
+	}
+
+	@Test
 	public void init_null_values() {
 		NoRowsFoundException ex = new NoRowsFoundException("table", null, null, null, null);
 		assertNotNull(ex);

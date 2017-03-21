@@ -73,7 +73,7 @@ public class CursorUtilsTest {
 
 	@Test
 	public void getShort() throws Exception {
-		assertEquals(7, CursorUtils.getTimestamp(cursor, "colShort"));
+		assertEquals(7, CursorUtils.getShort(cursor, "colShort"));
 	}
 
 	@Test
