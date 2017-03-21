@@ -8,7 +8,6 @@ import java.util.List;
 
 import io.explod.querydb.db.QueryDb;
 import io.explod.querydb.table.QueryTable;
-import io.explod.querydb.table.WhereClause;
 import io.explod.testable.data.local.contract.RepositoryContract;
 import io.explod.testable.data.local.model.Repository;
 import io.reactivex.Single;
@@ -21,19 +20,15 @@ public class RepositoriesTable extends AsyncQueryTable<Repository> {
 
 	@NonNull
 	public Single<Repository> getOrCreate(long userId, @NonNull String name) {
-		WhereClause where = new WhereClause(RepositoryContract.Columns.NAME + " = ?", name);
-
 		ContentValues values = new ContentValues();
 		values.put(RepositoryContract.Columns.USER_ID, userId);
 		values.put(RepositoryContract.Columns.NAME, name);
 
-		return getOrCreate(where, values);
+		return getOrCreate(values, RepositoryContract.Columns.NAME + " = ?", name);
 	}
 
 	@NonNull
 	public Single<List<Repository>> getAllForUser(long userId) {
-		WhereClause where = new WhereClause(RepositoryContract.Columns.USER_ID + " = ?", String.valueOf(userId));
-
-		return getAll(where);
+		return getAll(RepositoryContract.Columns.USER_ID + " = ?", String.valueOf(userId));
 	}
 }

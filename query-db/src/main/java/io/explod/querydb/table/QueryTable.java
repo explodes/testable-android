@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.Size;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import io.explod.querydb.util.CursorUtils;
  *
  * @param <T> T is the type of object to convert rows into
  */
+@SuppressWarnings("WeakerAccess")
 public class QueryTable<T> {
 
 	private static final long NO_ID = -1;
@@ -78,41 +80,44 @@ public class QueryTable<T> {
 	}
 
 	/**
-	 * Fetch rows that match the given {@link WhereClause} using the default sort
+	 * Fetch rows that match the given WHERE clause using the default sort
 	 *
-	 * @param where {@link WhereClause} to filter results by
+	 * @param where     WHERE clause to filter results by
+	 * @param whereArgs WHERE positional arguments
 	 * @return A list of objects found
 	 */
 	@NonNull
-	public List<T> getAll(@Nullable WhereClause where) {
-		return getAll(where, mDefaultSort);
+	public List<T> getAll(@Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return getAllSorted(mDefaultSort, where, whereArgs);
 	}
 
 	/**
-	 * Fetch sorted rows that match the given {@link WhereClause}
+	 * Fetch sorted rows that match the given WHERE clause
 	 *
-	 * @param where {@link WhereClause} to filter results by
-	 * @param sort  ORDER BY clause
+	 * @param sort      ORDER BY clause
+	 * @param where     WHERE clause to filter results by
+	 * @param whereArgs WHERE positional arguments
 	 * @return A list of objects found
 	 */
 	@NonNull
-	public List<T> getAll(@Nullable WhereClause where, @Nullable String sort) {
-		return getAll(mQueryDb.getReadableDatabase(), where, sort);
+	public List<T> getAllSorted(@Nullable String sort, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return getAll(mQueryDb.getReadableDatabase(), sort, where, whereArgs);
 	}
 
 	/**
-	 * Fetch sorted rows that match the given {@link WhereClause}
+	 * Fetch sorted rows that match the given WHERE clause
 	 *
-	 * @param db    Database to use, maybe under transaction
-	 * @param where {@link WhereClause} to filter results by
-	 * @param sort  ORDER BY clause
+	 * @param db        Database to use, maybe under transaction
+	 * @param sort      ORDER BY clause
+	 * @param where     WHERE clause to filter results by
+	 * @param whereArgs WHERE positional arguments
 	 * @return A list of objects found
 	 */
 	@NonNull
-	public List<T> getAll(@NonNull SQLiteDatabase db, @Nullable WhereClause where, @Nullable String sort) {
+	public List<T> getAll(@NonNull SQLiteDatabase db, @Nullable String sort, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
 		List<T> results = new ArrayList<>();
 
-		Cursor cursor = select(db, mProjection, where, sort);
+		Cursor cursor = select(db, mProjection, sort, where, whereArgs);
 		try {
 			while (cursor.moveToNext()) {
 				T t = mRowConverter.convertCurrentRow(cursor);
@@ -130,18 +135,19 @@ public class QueryTable<T> {
 	 *
 	 * @param db         Database to use, maybe under transaction
 	 * @param projection SELECT these columns
-	 * @param where      WHERE these conditions are met
 	 * @param sort       ORDER BY this clause
+	 * @param where      WHERE clause to filter results by
+	 * @param whereArgs  WHERE positional arguments
 	 * @return Open Cursor for the given query
 	 */
 	@NonNull
-	private Cursor select(@NonNull SQLiteDatabase db, @NonNull String[] projection, @Nullable WhereClause where, @Nullable String sort) {
+	private Cursor select(@NonNull SQLiteDatabase db, @NonNull String[] projection, @Nullable String sort, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
 		Select select = mQueryDb.select(db)
 			.table(mTableName)
 			.columns(projection);
 
 		if (where != null) {
-			select.where(where.getStatement(), where.getArgs());
+			select.where(where, whereArgs);
 		}
 
 		if (sort != null) {
@@ -165,39 +171,42 @@ public class QueryTable<T> {
 	/**
 	 * Fetch the first row in the table meeting the given conditions using the default sort
 	 *
-	 * @param where {@link WhereClause} to filter the table by
+	 * @param where     WHERE clause to filter results by
+	 * @param whereArgs WHERE positional arguments
 	 * @return The first found record or null if no records exist
 	 */
 	@Nullable
-	public T first(@Nullable WhereClause where) {
-		return first(where, mDefaultSort);
+	public T first(@Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return firstSorted(mDefaultSort, where, whereArgs);
 	}
 
 	/**
 	 * Fetch the first row in the table meeting the given conditions using the given sort
 	 *
-	 * @param where {@link WhereClause} to filter the table by
-	 * @param sort  ORDER BY clause to order the results for
+	 * @param sort      ORDER BY clause to order the results for
+	 * @param where     WHERE clause to filter results by
+	 * @param whereArgs WHERE positional arguments
 	 * @return The first found record or null if no records exist
 	 */
 	@Nullable
-	public T first(@Nullable WhereClause where, @Nullable String sort) {
-		return first(mQueryDb.getReadableDatabase(), where, sort);
+	public T firstSorted(@Nullable String sort, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return firstSorted(mQueryDb.getReadableDatabase(), sort, where, whereArgs);
 	}
 
 	/**
 	 * Fetch the first row in the table meeting the given conditions using the given sort
 	 *
-	 * @param db    Database to use, maybe under transaction
-	 * @param where {@link WhereClause} to filter the table by
-	 * @param sort  ORDER BY clause to order the results for
+	 * @param db        Database to use, maybe under transaction
+	 * @param sort      ORDER BY clause to order the results for
+	 * @param where     WHERE clause to filter results by
+	 * @param whereArgs WHERE positional arguments
 	 * @return The first found record or null if no records exist
 	 */
 	@Nullable
-	public T first(@NonNull SQLiteDatabase db, @Nullable WhereClause where, @Nullable String sort) {
+	public T firstSorted(@NonNull SQLiteDatabase db, @Nullable String sort, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
 		T result = null;
 
-		Cursor cursor = select(db, mProjection, where, sort);
+		Cursor cursor = select(db, mProjection, sort, where, whereArgs);
 		try {
 			if (cursor.moveToNext()) {
 				result = mRowConverter.convertCurrentRow(cursor);
@@ -207,17 +216,6 @@ public class QueryTable<T> {
 		}
 
 		return result;
-	}
-
-	/**
-	 * Helper method to build a {@link WhereClause} to match by ID
-	 *
-	 * @param id ID to match on
-	 * @return The built {@link WhereClause} that filters by ID
-	 */
-	@NonNull
-	private static WhereClause whereParametersForId(long id) {
-		return new WhereClause(BaseColumns._ID + " = ?", String.valueOf(id));
 	}
 
 	/**
@@ -240,29 +238,30 @@ public class QueryTable<T> {
 	 */
 	@Nullable
 	public T byId(@NonNull SQLiteDatabase db, long id) {
-		WhereClause values = whereParametersForId(id);
-		return first(db, values, null);
+		return firstSorted(db, mDefaultSort, BaseColumns._ID + " = ?", String.valueOf(id));
 	}
 
 	/**
-	 * Check to see if rows exist matching the given {@link WhereClause}
+	 * Check to see if rows exist matching the given WHERE clause
 	 *
-	 * @param where {@link WhereClause} to filter by
+	 * @param where     WHERE clause to filter results by
+	 * @param whereArgs WHERE positional arguments
 	 * @return Whether or not any rows were found
 	 */
-	public boolean exists(@Nullable WhereClause where) {
-		return exists(mQueryDb.getReadableDatabase(), where);
+	public boolean exists(@Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return exists(mQueryDb.getReadableDatabase(), where, whereArgs);
 	}
 
 	/**
-	 * Check to see if rows exist matching the given {@link WhereClause}
+	 * Check to see if rows exist matching the given WHERE clause
 	 *
-	 * @param db    Database to use, maybe under transaction
-	 * @param where {@link WhereClause} to filter by
+	 * @param db        Database to use, maybe under transaction
+	 * @param where     WHERE clause to filter results by
+	 * @param whereArgs WHERE positional arguments
 	 * @return Whether or not any rows were found
 	 */
-	public boolean exists(@NonNull SQLiteDatabase db, @Nullable WhereClause where) {
-		return count(db, where) > 0;
+	public boolean exists(@NonNull SQLiteDatabase db, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return count(db, where, whereArgs) > 0;
 	}
 
 	/**
@@ -277,24 +276,26 @@ public class QueryTable<T> {
 	/**
 	 * Count the number of matching records in the table
 	 *
-	 * @param where {@link WhereClause} to filter by
-	 * @return The count of rows matching the {@link WhereClause} or 0 if no rows were found
+	 * @param where     WHERE clause to count by
+	 * @param whereArgs WHERE positional arguments
+	 * @return The count of rows matching the WHERE clause or 0 if no rows were found
 	 */
-	public long count(@Nullable WhereClause where) {
-		return count(mQueryDb.getReadableDatabase(), where);
+	public long count(@Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return count(mQueryDb.getReadableDatabase(), where, whereArgs);
 	}
 
 	/**
 	 * Count the number of matching records in the table
 	 *
-	 * @param db    Database to use, maybe under transaction
-	 * @param where {@link WhereClause} to filter by
-	 * @return The count of rows matching the {@link WhereClause} or 0 if no rows were found
+	 * @param db        Database to use, maybe under transaction
+	 * @param where     WHERE clause to count by
+	 * @param whereArgs WHERE positional arguments
+	 * @return The count of rows matching the WHERE clause or 0 if no rows were found
 	 */
-	public long count(@NonNull SQLiteDatabase db, @Nullable WhereClause where) {
+	public long count(@NonNull SQLiteDatabase db, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
 		long count = 0L;
 
-		Cursor cursor = select(db, EXISTS_PROJECTION, where, null);
+		Cursor cursor = select(db, EXISTS_PROJECTION, null, where, whereArgs);
 		try {
 			if (cursor.moveToNext()) {
 				count = CursorUtils.getLong(cursor, EXISTS_COLUMN);
@@ -333,29 +334,31 @@ public class QueryTable<T> {
 	/**
 	 * Update rows matching the given filter with the given values
 	 *
-	 * @param where  {@link WhereClause} selecting rows to update
-	 * @param values Values to update the rows with
+	 * @param values    Values to update the rows with
+	 * @param where     WHERE clause to update by
+	 * @param whereArgs WHERE positional arguments
 	 * @return The number of updated rows
 	 */
-	public long update(@Nullable WhereClause where, @NonNull ContentValues values) {
-		return update(mQueryDb.getWritableDatabase(), where, values);
+	public long update(@NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return update(mQueryDb.getWritableDatabase(), values, where, whereArgs);
 	}
 
 	/**
 	 * Update rows matching the given filter with the given values
 	 *
-	 * @param db     Database to use, maybe under transaction
-	 * @param where  {@link WhereClause} selecting rows to update
-	 * @param values Values to update the rows with
+	 * @param db        Database to use, maybe under transaction
+	 * @param values    Values to update the rows with
+	 * @param where     WHERE clause to update by
+	 * @param whereArgs WHERE positional arguments
 	 * @return The number of updated rows
 	 */
-	public long update(@NonNull SQLiteDatabase db, @Nullable WhereClause where, @NonNull ContentValues values) {
+	public long update(@NonNull SQLiteDatabase db, @NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
 		Update update = mQueryDb.update(db)
 			.table(mTableName)
 			.values(values);
 
 		if (where != null) {
-			update.where(where.getStatement(), where.getArgs());
+			update.where(where, whereArgs);
 		} else {
 			// empty selection doesn't return count in some versions of sqlite
 			update.where("1");
@@ -378,26 +381,28 @@ public class QueryTable<T> {
 	/**
 	 * Delete filtered rows from the table
 	 *
-	 * @param where Delete rows matching the filter
+	 * @param where     WHERE clause to delete by
+	 * @param whereArgs WHERE positional arguments
 	 * @return Number of rows deleted
 	 */
-	public long delete(@Nullable WhereClause where) {
-		return delete(mQueryDb.getWritableDatabase(), where);
+	public long delete(@Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return delete(mQueryDb.getWritableDatabase(), where, whereArgs);
 	}
 
 	/**
 	 * Delete filtered rows from the table
 	 *
-	 * @param db    Database to use, maybe under transaction
-	 * @param where Delete rows matching the filter
+	 * @param db        Database to use, maybe under transaction
+	 * @param where     WHERE clause to delete by
+	 * @param whereArgs WHERE positional arguments
 	 * @return Number of rows deleted
 	 */
-	public long delete(@NonNull SQLiteDatabase db, @Nullable WhereClause where) {
+	public long delete(@NonNull SQLiteDatabase db, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
 		Delete delete = mQueryDb.delete(db)
 			.table(mTableName);
 
 		if (where != null) {
-			delete.where(where.getStatement(), where.getArgs());
+			delete.where(where, whereArgs);
 		} else {
 			// empty selection doesn't return count in some versions of sqlite
 			delete.where("1");
@@ -409,26 +414,28 @@ public class QueryTable<T> {
 	/**
 	 * Update or insert a row
 	 *
-	 * @param where  Update rows matching this filter
-	 * @param values Values to update the row with, or values to insert a new row
+	 * @param values    Values to update the row with, or values to insert a new row
+	 * @param where     WHERE clause to update by
+	 * @param whereArgs WHERE positional arguments
 	 * @return Number of rows updated or inserted
 	 */
-	public long upsert(@Nullable WhereClause where, @NonNull ContentValues values) {
-		return upsert(mQueryDb.getWritableDatabase(), where, values);
+	public long upsert(@NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return upsert(mQueryDb.getWritableDatabase(), values, where, whereArgs);
 	}
 
 	/**
 	 * Update or insert a row
 	 *
-	 * @param db     Database to use, maybe under transaction
-	 * @param where  Update rows matching this filter
-	 * @param values Values to update the row with, or values to insert a new row
+	 * @param db        Database to use, maybe under transaction
+	 * @param values    Values to update the row with, or values to insert a new row
+	 * @param where     WHERE clause to update by
+	 * @param whereArgs WHERE positional arguments
 	 * @return Number of rows updated or inserted
 	 */
-	public long upsert(@NonNull SQLiteDatabase db, @Nullable WhereClause where, @NonNull ContentValues values) {
+	public long upsert(@NonNull SQLiteDatabase db, @NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
 		db.beginTransaction();
 		try {
-			long count = update(db, where, values);
+			long count = update(db, values, where, whereArgs);
 			if (count > 0) {
 				db.setTransactionSuccessful();
 				return count;
@@ -450,34 +457,35 @@ public class QueryTable<T> {
 	 * Get or create a row. In order to return a {@link NonNull} value, some exceptions may be thrown
 	 * in the event of failure.
 	 *
-	 * @param where  Update rows matching this filter
-	 * @param values Values to insert a new row if one was not found
+	 * @param values    Values to insert a new row if one was not found
+	 * @param where     WHERE clause to get the first result by
+	 * @param whereArgs WHERE positional arguments
 	 * @return Found object or new object
 	 * @throws CreateFailedException If the insert was not successful
 	 * @throws NoRowsFoundException  If the newly inserted row could not be retrieved by its own ID
 	 */
 	@NonNull
-	public T getOrCreate(@Nullable WhereClause where, @NonNull ContentValues values) {
-		return getOrCreate(mQueryDb.getWritableDatabase(), where, values);
+	public T getOrCreate(@NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return getOrCreate(mQueryDb.getWritableDatabase(), values, where, whereArgs);
 	}
 
 	/**
 	 * Get or create a row. In order to return a {@link NonNull} value, some exceptions may be thrown
 	 * in the event of failure.
 	 *
-	 * @param db     Database to use, maybe under transaction
-	 * @param where  Update rows matching this filter
-	 * @param values Values to insert a new row if one was not found
+	 * @param db        Database to use, maybe under transaction
+	 * @param values    Values to insert a new row if one was not found
+	 * @param where     WHERE clause to get the first result by
+	 * @param whereArgs WHERE positional arguments
 	 * @return Found object or new object
 	 * @throws CreateFailedException If the insert was not successful
 	 * @throws NoRowsFoundException  If the newly inserted row could not be retrieved by its own ID
 	 */
 	@NonNull
-	public T getOrCreate(@NonNull SQLiteDatabase db, @Nullable WhereClause where, @NonNull ContentValues values) {
-
+	public T getOrCreate(@NonNull SQLiteDatabase db, @NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
 		db.beginTransaction();
 		try {
-			T result = first(db, where, mDefaultSort);
+			T result = firstSorted(db, mDefaultSort, where, whereArgs);
 
 			if (result != null) {
 				db.setTransactionSuccessful();
@@ -493,7 +501,7 @@ public class QueryTable<T> {
 			// fetch whole object by id
 			result = byId(db, id);
 			if (result == null) {
-				throw new NoRowsFoundException(mTableName, whereParametersForId(id));
+				throw new NoRowsFoundException(mTableName, BaseColumns._ID + " = ?", String.valueOf(id));
 			}
 			db.setTransactionSuccessful();
 			return result;

@@ -124,8 +124,7 @@ public class QueryTableTest {
 		assertNotSame(0, db.insert().table("test").value("name", "foo").value("value", 2).execute());
 
 		// fetch test data
-		WhereClause where = new WhereClause("name = ?", "foo");
-		first = table.first(where);
+		first = table.first("name = ?", "foo");
 
 		// check test data
 		assertNotNull(first);
@@ -164,8 +163,7 @@ public class QueryTableTest {
 		assertTrue(exists);
 
 		// fetch test data
-		WhereClause where = new WhereClause("name = ?", "foo");
-		exists = table.exists(where);
+		exists = table.exists("name = ?", "foo");
 		assertTrue(exists);
 	}
 
@@ -185,8 +183,7 @@ public class QueryTableTest {
 		assertEquals(2, count);
 
 		// fetch test data
-		WhereClause where = new WhereClause("name = ?", "foo");
-		count = table.count(where);
+		count = table.count("name = ?", "foo");
 		assertEquals(1, count);
 	}
 
@@ -199,8 +196,7 @@ public class QueryTableTest {
 		assertEquals(2, table.count());
 
 		// remove record by name
-		WhereClause where = new WhereClause("name = ?", "foo");
-		long count = table.delete(where);
+		long count = table.delete("name = ?", "foo");
 		assertEquals(1, count);
 		assertEquals(1, table.count());
 
@@ -235,21 +231,19 @@ public class QueryTableTest {
 		assertNotSame(0, db.insert().table("test").value("name", "bar").value("value", 1).execute());
 		assertNotSame(0, db.insert().table("test").value("name", "foo").value("value", 2).execute());
 
-		WhereClause where = new WhereClause("name = ?", "foo");
 		ContentValues values = new ContentValues(1);
 		values.put("value", 123);
-		table.update(where, values);
+		table.update(values, "name = ?", "foo");
 
 		// test record was updated
-		Record record = table.first(where);
+		Record record = table.first("name = ?", "foo");
 		assertNotNull(record);
 		assertNotSame(-1, record.id);
 		assertEquals("foo", record.name);
 		assertEquals(123, record.value);
 
 		// test other record was not affected
-		where = new WhereClause("name = ?", "bar");
-		record = table.first(where);
+		record = table.first("name = ?", "bar");
 		assertNotNull(record);
 		assertNotSame(-1, record.id);
 		assertEquals("bar", record.name);
@@ -262,16 +256,15 @@ public class QueryTableTest {
 		// insert fuzz data
 		assertNotSame(0, db.insert().table("test").value("name", "bar").value("value", 777).execute());
 
-		WhereClause where = new WhereClause("name = ?", "foo");
 		ContentValues values = new ContentValues(1);
 		values.put("name", "foo");
 		values.put("value", 123);
 
 		// insert
-		assertEquals(1, table.upsert(where, values));
+		assertEquals(1, table.upsert(values, "name = ?", "foo"));
 
 		// validate insert
-		Record record = table.first(where);
+		Record record = table.first("name = ?", "foo");
 		assertNotNull(record);
 		assertNotSame(-1, record.id);
 		assertEquals("foo", record.name);
@@ -279,17 +272,17 @@ public class QueryTableTest {
 
 		// update
 		values.put("value", 1);
-		assertEquals(1, table.upsert(where, values));
+		assertEquals(1, table.upsert(values, "name = ?", "foo"));
 
 		// validate update
-		record = table.first(where);
+		record = table.first("name = ?", "foo");
 		assertNotNull(record);
 		assertNotSame(-1, record.id);
 		assertEquals("foo", record.name);
 		assertEquals(1, record.value);
 
 		// validate fuzz
-		record = table.first(new WhereClause("name = ?", "bar"));
+		record = table.first("name = ?", "bar");
 		assertNotNull(record);
 		assertNotSame(-1, record.id);
 		assertEquals("bar", record.name);
@@ -302,13 +295,12 @@ public class QueryTableTest {
 		// insert fuzz data
 		assertNotSame(0, db.insert().table("test").value("name", "bar").value("value", 777).execute());
 
-		WhereClause where = new WhereClause("name = ?", "foo");
 		ContentValues values = new ContentValues(1);
 		values.put("name", "foo");
 		values.put("value", 123);
 
 		// create
-		Record record = table.getOrCreate(where, values);
+		Record record = table.getOrCreate(values, "name = ?", "foo");
 		assertNotNull(record);
 		assertNotSame(-1, record.id);
 		assertEquals("foo", record.name);
@@ -316,14 +308,14 @@ public class QueryTableTest {
 
 		// get
 		values.put("value", 222);
-		record = table.getOrCreate(where, values);
+		record = table.getOrCreate(values, "name = ?", "foo");
 		assertNotNull(record);
 		assertNotSame(-1, record.id);
 		assertEquals("foo", record.name);
 		assertEquals(123, record.value); // value should not be changed, as it should be a get.
 
 		// validate fuzz
-		record = table.first(new WhereClause("name = ?", "bar"));
+		record = table.first("name = ?", "bar");
 		assertNotNull(record);
 		assertNotSame(-1, record.id);
 		assertEquals("bar", record.name);

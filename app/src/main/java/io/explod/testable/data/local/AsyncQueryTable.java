@@ -5,13 +5,13 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.Size;
 
 import com.fernandocejas.arrow.optional.Optional;
 
 import java.util.List;
 
 import io.explod.querydb.table.QueryTable;
-import io.explod.querydb.table.WhereClause;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -23,6 +23,7 @@ import static io.explod.testable.util.rx.OptionalUtils.optional;
  *
  * @param <T> See {@link QueryTable}
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 class AsyncQueryTable<T> {
 
 	@NonNull
@@ -55,29 +56,29 @@ class AsyncQueryTable<T> {
 	}
 
 	/**
-	 * @see QueryTable#getAll(WhereClause)
+	 * @see QueryTable#getAll(String, String...)
 	 */
 	@NonNull
-	public Single<List<T>> getAll(@Nullable WhereClause where) {
-		return Single.fromCallable(() -> mQueryTable.getAll(where))
+	public Single<List<T>> getAll(@Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.getAll(where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#getAll(WhereClause, String)
+	 * @see QueryTable#getAllSorted(String, String, String...)
 	 */
 	@NonNull
-	public Single<List<T>> getAll(@Nullable WhereClause where, @Nullable String sort) {
-		return Single.fromCallable(() -> mQueryTable.getAll(where, sort))
+	public Single<List<T>> getAllSorted(@Nullable String sort, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.getAllSorted(sort, where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#getAll(SQLiteDatabase, WhereClause, String)
+	 * @see QueryTable#getAll(SQLiteDatabase, String, String, String...)
 	 */
 	@NonNull
-	public Single<List<T>> getAll(@NonNull SQLiteDatabase db, @Nullable WhereClause where, @Nullable String sort) {
-		return Single.fromCallable(() -> mQueryTable.getAll(db, where, sort))
+	public Single<List<T>> getAll(@NonNull SQLiteDatabase db, @Nullable String sort, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.getAll(db, sort, where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
@@ -91,29 +92,29 @@ class AsyncQueryTable<T> {
 	}
 
 	/**
-	 * @see QueryTable#first(WhereClause)
+	 * @see QueryTable#first(String, String...)
 	 */
 	@NonNull
-	public Single<Optional<T>> first(@Nullable WhereClause where) {
-		return Single.fromCallable(() -> optional(mQueryTable.first(where)))
+	public Single<Optional<T>> first(@Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> optional(mQueryTable.first(where, whereArgs)))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#first(WhereClause, String)
+	 * @see QueryTable#firstSorted(String, String, String...)
 	 */
 	@NonNull
-	public Single<Optional<T>> first(@Nullable WhereClause where, @Nullable String sort) {
-		return Single.fromCallable(() -> optional(mQueryTable.first(where, sort)))
+	public Single<Optional<T>> first(@Nullable String sort, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> optional(mQueryTable.firstSorted(sort, where, whereArgs)))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#first(SQLiteDatabase, WhereClause, String)
+	 * @see QueryTable#firstSorted(SQLiteDatabase, String, String, String...)
 	 */
 	@NonNull
-	public Single<Optional<T>> first(@NonNull SQLiteDatabase db, @Nullable WhereClause where, @Nullable String sort) {
-		return Single.fromCallable(() -> optional(mQueryTable.first(db, where, sort)))
+	public Single<Optional<T>> firstSorted(@NonNull SQLiteDatabase db, @Nullable String sort, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> optional(mQueryTable.firstSorted(db, sort, where, whereArgs)))
 			.subscribeOn(mScheduler);
 	}
 
@@ -136,20 +137,20 @@ class AsyncQueryTable<T> {
 	}
 
 	/**
-	 * @see QueryTable#exists(WhereClause)
+	 * @see QueryTable#exists(String, String...)
 	 */
 	@NonNull
-	public Single<Boolean> exists(@Nullable WhereClause where) {
-		return Single.fromCallable(() -> mQueryTable.exists(where))
+	public Single<Boolean> exists(@Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.exists(where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#exists(SQLiteDatabase, WhereClause)
+	 * @see QueryTable#exists(SQLiteDatabase, String, String...)
 	 */
 	@NonNull
-	public Single<Boolean> exists(@NonNull SQLiteDatabase db, @Nullable WhereClause where) {
-		return Single.fromCallable(() -> mQueryTable.exists(db, where))
+	public Single<Boolean> exists(@NonNull SQLiteDatabase db, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.exists(db, where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
@@ -163,20 +164,20 @@ class AsyncQueryTable<T> {
 	}
 
 	/**
-	 * @see QueryTable#count(WhereClause)
+	 * @see QueryTable#count(String, String...)
 	 */
 	@NonNull
-	public Single<Long> count(@Nullable WhereClause where) {
-		return Single.fromCallable(() -> mQueryTable.count(where))
+	public Single<Long> count(@Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.count(where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#count(SQLiteDatabase, WhereClause)
+	 * @see QueryTable#count(SQLiteDatabase, String, String...)
 	 */
 	@NonNull
-	public Single<Long> count(@NonNull SQLiteDatabase db, @Nullable WhereClause where) {
-		return Single.fromCallable(() -> mQueryTable.count(db, where))
+	public Single<Long> count(@NonNull SQLiteDatabase db, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.count(db, where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
@@ -199,20 +200,20 @@ class AsyncQueryTable<T> {
 	}
 
 	/**
-	 * @see QueryTable#update(WhereClause, ContentValues)
+	 * @see QueryTable#update(ContentValues, String, String...)
 	 */
 	@NonNull
-	public Single<Long> update(@Nullable WhereClause where, @NonNull ContentValues values) {
-		return Single.fromCallable(() -> mQueryTable.update(where, values))
+	public Single<Long> update(@NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.update(values, where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#update(SQLiteDatabase, WhereClause, ContentValues)
+	 * @see QueryTable#update(SQLiteDatabase, ContentValues, String, String...)
 	 */
 	@NonNull
-	public Single<Long> update(@NonNull SQLiteDatabase db, @Nullable WhereClause where, @NonNull ContentValues values) {
-		return Single.fromCallable(() -> mQueryTable.update(db, where, values))
+	public Single<Long> update(@NonNull SQLiteDatabase db, @NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.update(db, values, where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
@@ -226,56 +227,56 @@ class AsyncQueryTable<T> {
 	}
 
 	/**
-	 * @see QueryTable#delete(WhereClause)
+	 * @see QueryTable#delete(String, String...)
 	 */
 	@NonNull
-	public Single<Long> delete(@Nullable WhereClause where) {
-		return Single.fromCallable(() -> mQueryTable.delete(where))
+	public Single<Long> delete(@Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.delete(where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#delete(SQLiteDatabase, WhereClause)
+	 * @see QueryTable#delete(SQLiteDatabase, String, String...)
 	 */
 	@NonNull
-	public Single<Long> delete(@NonNull SQLiteDatabase db, @Nullable WhereClause where) {
-		return Single.fromCallable(() -> mQueryTable.delete(db, where))
+	public Single<Long> delete(@NonNull SQLiteDatabase db, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.delete(db, where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#upsert(WhereClause, ContentValues)
+	 * @see QueryTable#upsert(ContentValues, String, String...)
 	 */
 	@NonNull
-	public Single<Long> upsert(@Nullable WhereClause where, @NonNull ContentValues values) {
-		return Single.fromCallable(() -> mQueryTable.upsert(where, values))
+	public Single<Long> upsert(@NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.upsert(values, where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#upsert(SQLiteDatabase, WhereClause, ContentValues)
+	 * @see QueryTable#upsert(SQLiteDatabase, ContentValues, String, String...)
 	 */
 	@NonNull
-	public Single<Long> upsert(@NonNull SQLiteDatabase db, @Nullable WhereClause where, @NonNull ContentValues values) {
-		return Single.fromCallable(() -> mQueryTable.upsert(db, where, values))
+	public Single<Long> upsert(@NonNull SQLiteDatabase db, @NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.upsert(db, values, where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#getOrCreate(WhereClause, ContentValues)
+	 * @see QueryTable#getOrCreate(ContentValues, String, String...)
 	 */
 	@NonNull
-	public Single<T> getOrCreate(@Nullable WhereClause where, @NonNull ContentValues values) {
-		return Single.fromCallable(() -> mQueryTable.getOrCreate(where, values))
+	public Single<T> getOrCreate(@NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.getOrCreate(values, where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
 	/**
-	 * @see QueryTable#getOrCreate(SQLiteDatabase, WhereClause, ContentValues)
+	 * @see QueryTable#getOrCreate(SQLiteDatabase, ContentValues, String, String...)
 	 */
 	@NonNull
-	public Single<T> getOrCreate(@NonNull SQLiteDatabase db, @Nullable WhereClause where, @NonNull ContentValues values) {
-		return Single.fromCallable(() -> mQueryTable.getOrCreate(db, where, values))
+	public Single<T> getOrCreate(@NonNull SQLiteDatabase db, @NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
+		return Single.fromCallable(() -> mQueryTable.getOrCreate(db, values, where, whereArgs))
 			.subscribeOn(mScheduler);
 	}
 
