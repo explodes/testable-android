@@ -3,11 +3,13 @@ package io.explod.testable.ui.fragment.home;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,8 +41,28 @@ class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.RepoViewHolder> {
 	@Override
 	public void onBindViewHolder(RepoViewHolder holder, int position) {
 		Repository repo = mRepositories.get(position);
+
 		holder.titleText.setText(repo.getName());
 		holder.descriptionText.setText(repo.getDescription());
+
+		Context context = holder.itemView.getContext();
+		if (context == null) return;
+
+		List<String> stats = new ArrayList<>();
+		if (repo.getForks() > 0) {
+			stats.add(context.getString(R.string.repo_stats_forks, repo.getForks()));
+		}
+		if (repo.getWatchers() > 0) {
+			stats.add(context.getString(R.string.repo_stats_watchers, repo.getWatchers()));
+		}
+		if (repo.getStars() > 0) {
+			stats.add(context.getString(R.string.repo_stats_stars, repo.getStars()));
+		}
+		if (stats.size() == 0) {
+			holder.statsText.setText(null);
+		} else {
+			holder.statsText.setText(TextUtils.join(context.getString(R.string.repo_stats_sep), stats));
+		}
 	}
 
 	@Override
@@ -60,6 +82,9 @@ class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.RepoViewHolder> {
 
 		@BindView(R.id.text_repository_description)
 		TextView descriptionText;
+
+		@BindView(R.id.text_repository_stats)
+		TextView statsText;
 
 		RepoViewHolder(View itemView) {
 			super(itemView);

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Testable</string>
+
+    <string name="repo_stats_stars">%ds</string>
+    <string name="repo_stats_watchers">%dw</string>
+    <string name="repo_stats_forks">%df</string>
+    <string name="repo_stats_sep"> / </string>
+
 </resources>
