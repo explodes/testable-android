@@ -29,6 +29,6 @@ public class RepositoriesTable extends AsyncQueryTable<Repository> {
 
 	@NonNull
 	public Single<List<Repository>> getAllForUser(long userId) {
-		return getAll(RepositoryContract.Columns.USER_ID + " = ?", String.valueOf(userId));
+		return getAllSorted(RepositoryContract.Sort.NAME, RepositoryContract.Columns.USER_ID + " = ?", String.valueOf(userId));
 	}
 }

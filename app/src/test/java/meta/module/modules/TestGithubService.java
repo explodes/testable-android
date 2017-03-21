@@ -25,11 +25,11 @@ public class TestGithubService implements GithubService {
 	public Single<List<UserRepositoryResponse>> getUserRepos(@Path("username") String username) {
 		List<UserRepositoryResponse> response = new ArrayList<>();
 
-		for (int index = 0; index < 10; index++) {
+		for (String repo : new String[]{"a", "b", "c"}) {
 			UserRepositoryResponse part = new UserRepositoryResponse();
-			part.name = "foo-repo-" + index;
+			part.name = username + "-" + repo;
 			part.owner = new UserRepositoryResponse.Owner();
-			part.owner.username = "mock-user";
+			part.owner.username = username;
 			response.add(part);
 		}
 

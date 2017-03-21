@@ -1,7 +1,6 @@
 package io.explod.testable.data.local.contract;
 
 import android.provider.BaseColumns;
-import android.support.annotation.Nullable;
 
 public class UserContract {
 
@@ -16,7 +15,8 @@ public class UserContract {
 	}
 
 	public static final class Sort {
-		@Nullable public static final String DEFAULT = null;
+		public static final String USERNAME = Columns.USERNAME + " ASC";
+		public static final String DEFAULT = USERNAME;
 	}
 
 }
