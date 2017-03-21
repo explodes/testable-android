@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 import io.explod.testable.service.base.InternetConnectivityService;
-import meta.module.modules.TestInternetConnectivityService;
+import meta.service.TestInternetConnectivityService;
 
 import static meta.module.TestObjectGraph.getTestInjector;
 

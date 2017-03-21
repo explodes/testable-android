@@ -1,4 +1,4 @@
-package meta.module.modules;
+package meta.service;
 
 import android.support.annotation.NonNull;
 

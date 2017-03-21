@@ -34,7 +34,6 @@ public class TestSchedulerRule implements TestRule {
 		return new Statement() {
 			@Override
 			public void evaluate() throws Throwable {
-				RxJavaPlugins.setSingleSchedulerHandler(scheduler -> testScheduler);
 				RxJavaPlugins.setIoSchedulerHandler(scheduler -> testScheduler);
 				RxJavaPlugins.setComputationSchedulerHandler(scheduler -> testScheduler);
 				RxJavaPlugins.setNewThreadSchedulerHandler(scheduler -> testScheduler);

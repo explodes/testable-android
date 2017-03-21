@@ -1,4 +1,4 @@
-package meta.module.modules;
+package meta.service;
 
 import android.support.annotation.NonNull;
 
@@ -28,6 +28,7 @@ public class TestGithubService implements GithubService {
 		for (String repo : new String[]{"a", "b", "c"}) {
 			UserRepositoryResponse part = new UserRepositoryResponse();
 			part.name = username + "-" + repo;
+			part.description = "sample description";
 			part.owner = new UserRepositoryResponse.Owner();
 			part.owner.username = username;
 			response.add(part);

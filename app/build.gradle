@@ -63,8 +63,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
 
-    compile 'com.google.dagger:dagger:2.9'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
+    compile 'com.google.dagger:dagger:2.10'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
 
     compile 'com.hannesdorfmann.mosby3:mvp:3.0.0'
 
@@ -85,12 +85,13 @@ dependencies {
 
     compile 'com.fernandocejas:arrow:1.0.0'
 
-    testCompile 'com.google.dagger:dagger:2.9'
-    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.9'
+    testCompile 'com.google.dagger:dagger:2.10'
+    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.10'
     testCompile "org.robolectric:robolectric:3.3.1"
     testCompile "org.robolectric:shadows-support-v4:3.3.1"
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19' // hold this back from 2.x.x for android testing
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

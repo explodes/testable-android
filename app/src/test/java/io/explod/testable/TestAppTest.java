@@ -8,7 +8,7 @@ import org.robolectric.RuntimeEnvironment;
 import meta.BaseRoboTest;
 import meta.TestApp;
 import meta.TestModules;
-import meta.module.modules.TestInternetConnectivityService;
+import meta.service.TestInternetConnectivityService;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
