@@ -81,6 +81,11 @@ public class Select extends Query<Select> {
 		return this;
 	}
 
+	@NonNull
+	public Select limit(@NonNull long limit) {
+		return limit(String.valueOf(limit));
+	}
+
 	@Override
 	protected void validate() {
 		super.validate();
