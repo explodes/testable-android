@@ -21,21 +21,7 @@ public class TestGithubService implements GithubService {
 
 	@NonNull
 	@Override
-	public Single<List<UserRepositoryResponse>> getUserRepos(@Path("username") String username) {
-		List<UserRepositoryResponse> repos = createUserRepositoryResponses(username);
-		return network(repos);
-	}
-
-	@NonNull
-	@Override
 	public Single<Response<List<UserRepositoryResponse>>> getUserReposRaw(@Path("username") String username) {
-		List<UserRepositoryResponse> repos = createUserRepositoryResponses(username);
-		Response<List<UserRepositoryResponse>> response = Response.success(repos);
-		return network(response);
-	}
-
-	@NonNull
-	private List<UserRepositoryResponse> createUserRepositoryResponses(@Path("username") String username) {
 		List<UserRepositoryResponse> repos = new ArrayList<>();
 
 		for (String repo : new String[]{"a", "b", "c"}) {
@@ -46,7 +32,10 @@ public class TestGithubService implements GithubService {
 			part.owner.username = username;
 			repos.add(part);
 		}
-		return repos;
+
+		Response<List<UserRepositoryResponse>> response = Response.success(repos);
+
+		return network(response);
 	}
 
 }

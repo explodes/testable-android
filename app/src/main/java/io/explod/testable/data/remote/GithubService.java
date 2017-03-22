@@ -19,11 +19,6 @@ public interface GithubService {
 	@NonNull
 	@GET("/users/{username}/repos")
 	@Headers(ACCEPT_JSON)
-	Single<List<UserRepositoryResponse>> getUserRepos(@Path("username") String username);
-
-	@NonNull
-	@GET("/users/{username}/repos")
-	@Headers(ACCEPT_JSON)
 	Single<Response<List<UserRepositoryResponse>>> getUserReposRaw(@Path("username") String username);
 
 }

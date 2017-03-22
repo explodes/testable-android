@@ -16,5 +16,4 @@ public abstract class BaseRoboTest {
 	public void setUpDexcache() {
 		System.setProperty("dexmaker.dexcache", RuntimeEnvironment.application.getCacheDir().getPath());
 	}
-	git
 }
