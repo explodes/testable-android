@@ -14,7 +14,7 @@ import io.explod.querydb.db.QueryDb;
 public class TestQueryDb extends QueryDb {
 
 	public TestQueryDb() {
-		super(RuntimeEnvironment.application, ":memory:", null, 2);
+		super(RuntimeEnvironment.application, null, null, 2);
 	}
 
 	@Nullable

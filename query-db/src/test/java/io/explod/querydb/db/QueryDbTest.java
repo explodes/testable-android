@@ -62,7 +62,7 @@ public class QueryDbTest {
 		private List<Integer> mMigrations;
 
 		public TrackedMigrationsDb(int version) {
-			super(RuntimeEnvironment.application, "test.db", null, version);
+			super(RuntimeEnvironment.application, null, null, version);
 		}
 
 		@Override
