@@ -11,6 +11,7 @@ import meta.rx.ImmediateSchedulerRule;
 
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -36,7 +37,7 @@ public class HomeFragmentPresenterTest extends BaseRoboTest {
 	public void onResumeLoadsOfflineThenOnlineRepositories() {
 		presenter.onResume();
 
-		verify(view, timeout().times(2)).setRepositories(anyListOf(Repository.class));
+		verify(view, times(2)).setRepositories(anyListOf(Repository.class));
 	}
 
 	@Test

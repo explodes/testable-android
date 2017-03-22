@@ -20,7 +20,7 @@ public class RepositoryContract {
 	}
 
 	public static final class Sort {
-		public static final String NAME = Columns.NAME + " ASC";
+		public static final String NAME = String.format("lower(%s) ASC", Columns.NAME);
 		public static final String DEFAULT = NAME;
 	}
 }

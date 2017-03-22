@@ -1,11 +1,7 @@
 package meta;
 
-import android.support.annotation.NonNull;
-
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.mockito.verification.VerificationWithTimeout;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
@@ -20,9 +16,5 @@ public abstract class BaseRoboTest {
 	public void setUpDexcache() {
 		System.setProperty("dexmaker.dexcache", RuntimeEnvironment.application.getCacheDir().getPath());
 	}
-
-	@NonNull
-	public static VerificationWithTimeout timeout() {
-		return Mockito.timeout(1000L);
-	}
+	git
 }

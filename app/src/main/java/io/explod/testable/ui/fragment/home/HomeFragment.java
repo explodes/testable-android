@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,12 @@ import io.explod.testable.data.local.model.Repository;
 import io.explod.testable.data.local.model.User;
 import io.explod.testable.ui.fragment.BaseFragment;
 
+import static io.explod.testable.util.TagUtils.makeTag;
+
 public class HomeFragment extends BaseFragment<HomeFragmentView, HomeFragmentPresenter>
 	implements HomeFragmentView, RepoAdapter.OnClick {
+
+	private static final String TAG = makeTag(HomeFragment.class);
 
 	@NonNull
 	public static HomeFragment newInstance() {
@@ -80,6 +85,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentView, HomeFragmentPre
 
 	@Override
 	public void showError(@NonNull Throwable t) {
+		Log.d(TAG, "showError", t);
 		Context context = getContext();
 		if (context == null) return;
 
