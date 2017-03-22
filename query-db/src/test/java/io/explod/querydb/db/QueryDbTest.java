@@ -62,7 +62,11 @@ public class QueryDbTest {
 		private List<Integer> mMigrations;
 
 		public TrackedMigrationsDb(int version) {
-			super(RuntimeEnvironment.application, null, null, version);
+			this(null, version);
+		}
+
+		public TrackedMigrationsDb(@Nullable String name, int version) {
+			super(RuntimeEnvironment.application, name, null, version);
 		}
 
 		@Override
@@ -124,7 +128,7 @@ public class QueryDbTest {
 		// test initial upgrade is run
 		TrackedMigrationsDb db = null;
 		try {
-			db = new TrackedMigrationsDb(1);
+			db = new TrackedMigrationsDb("file.db", 1);
 
 			assertEquals(1, db.mMigrations.size());
 			assertEquals(Integer.valueOf(1), db.mMigrations.get(0));
@@ -135,7 +139,7 @@ public class QueryDbTest {
 
 		// test version upgrade is run
 		try {
-			db = new TrackedMigrationsDb(2);
+			db = new TrackedMigrationsDb("file.db", 2);
 
 			assertEquals(1, db.mMigrations.size());
 			assertEquals(Integer.valueOf(2), db.mMigrations.get(0));
@@ -147,7 +151,7 @@ public class QueryDbTest {
 
 		// test multiple version upgrades are run
 		try {
-			db = new TrackedMigrationsDb(4);
+			db = new TrackedMigrationsDb("file.db", 4);
 
 			assertEquals(2, db.mMigrations.size());
 			assertEquals(Integer.valueOf(3), db.mMigrations.get(0));
