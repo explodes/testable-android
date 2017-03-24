@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.explod.testable.data.remote.GithubService;
+import io.explod.testable.service.base.GithubService;
 import io.explod.testable.service.InternetConnectivityServiceImpl;
 import io.explod.testable.service.base.InternetConnectivityService;
 import io.reactivex.schedulers.Schedulers;

@@ -9,7 +9,7 @@ import io.explod.querydb.db.QueryDb;
 
 public class AppDatabase extends QueryDb {
 
-	private static final String NAME = "app.db";
+	private static final String NAME = "app_no_wal.db";
 
 	private static final int VERSION_REPO_DESCRIPTION = VERSION_INITIAL + 1;
 	private static final int VERSION_REPO_STARS_WATCHERS_FORKS = VERSION_REPO_DESCRIPTION + 1;

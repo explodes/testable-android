@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import io.explod.testable.data.local.AppDatabase;
 import io.explod.testable.data.local.model.Repository;
 import io.explod.testable.data.local.model.User;
-import io.explod.testable.data.remote.GithubService;
+import io.explod.testable.service.base.GithubService;
 import io.explod.testable.data.remote.model.UserRepositoryResponse;
 import io.reactivex.Observable;
 import io.reactivex.Single;

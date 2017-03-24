@@ -86,7 +86,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile 'com.squareup.okio:okio:1.11.0'
 
-    compile 'com.github.explodes:query-db:1.0.0'
+    compile 'com.github.explodes:query-db:1.0.1'
 
     compile 'com.fernandocejas:arrow:1.0.0'
 

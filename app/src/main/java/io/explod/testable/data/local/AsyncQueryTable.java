@@ -11,20 +11,29 @@ import com.fernandocejas.arrow.optional.Optional;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import io.explod.querydb.table.QueryTable;
+import io.explod.testable.module.modules.SchedulerModule;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
+import static io.explod.testable.module.ObjectGraph.getInjector;
 import static io.explod.testable.util.rx.OptionalUtils.optional;
 
 /**
  * Wrapper for {@link QueryTable} that runs actions on Singles subscribed to a particular scheduler.
  *
  * @param <T> See {@link QueryTable}
+ * @hide Visible for injection
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
-class AsyncQueryTable<T> {
+@SuppressWarnings({"unused"})
+public class AsyncQueryTable<T> {
+
+	@NonNull
+	protected static final Scheduler sQueryScheduler = Schedulers.from(null);
 
 	@NonNull
 	private final QueryTable<T> mQueryTable;
@@ -32,13 +41,12 @@ class AsyncQueryTable<T> {
 	@NonNull
 	private final Scheduler mScheduler;
 
-	public AsyncQueryTable(@NonNull QueryTable<T> wrapped) {
-		this(wrapped, Schedulers.io());
-	}
 
-	public AsyncQueryTable(@NonNull QueryTable<T> wrapped, @NonNull Scheduler scheduler) {
+	public AsyncQueryTable(@NonNull QueryTable<T> wrapped) {
 		mQueryTable = wrapped;
-		mScheduler = scheduler;
+
+		Injects injects = new Injects();
+		mScheduler = injects.scheduler;
 	}
 
 	@NonNull
@@ -278,6 +286,19 @@ class AsyncQueryTable<T> {
 	public Single<T> getOrCreate(@NonNull SQLiteDatabase db, @NonNull ContentValues values, @Nullable String where, @Nullable @Size(min = 0) String... whereArgs) {
 		return Single.fromCallable(() -> mQueryTable.getOrCreate(db, values, where, whereArgs))
 			.subscribeOn(mScheduler);
+	}
+
+	/**
+	 * @hide Visible for injection
+	 */
+	public static class Injects {
+		@Inject
+		@Named(SchedulerModule.ASYNC_QUERY_SCHEDULER)
+		Scheduler scheduler;
+
+		public Injects() {
+			getInjector().inject(this);
+		}
 	}
 
 }

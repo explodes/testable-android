@@ -10,6 +10,7 @@ import io.explod.testable.module.modules.DatabaseModule;
 import io.explod.testable.module.modules.GsonModule;
 import io.explod.testable.module.modules.NetworkModule;
 import io.explod.testable.module.modules.RepoModule;
+import meta.module.modules.TestSchedulerModule;
 import meta.module.modules.TestServiceModule;
 
 @Singleton
@@ -21,6 +22,7 @@ import meta.module.modules.TestServiceModule;
 		NetworkModule.class,
 		DatabaseModule.class,
 		TestServiceModule.class,
+		TestSchedulerModule.class,
 	}
 )
 public interface TestObjectComponent extends ObjectComponent, TestInjector {

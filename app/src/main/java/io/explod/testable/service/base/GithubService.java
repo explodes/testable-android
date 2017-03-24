@@ -1,4 +1,4 @@
-package io.explod.testable.data.remote;
+package io.explod.testable.service.base;
 
 
 import android.support.annotation.NonNull;
