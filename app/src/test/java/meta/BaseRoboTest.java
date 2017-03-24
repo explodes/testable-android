@@ -9,7 +9,7 @@ import org.robolectric.annotation.Config;
 import io.explod.testable.BuildConfig;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(constants = BuildConfig.class, application = TestApp.class, sdk = Config.ALL_SDKS)
 public abstract class BaseRoboTest {
 
 	@Before
