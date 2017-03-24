@@ -15,7 +15,7 @@ import io.reactivex.internal.schedulers.ExecutorScheduler;
 @Module
 public class TestSchedulerModule {
 
-	private static class ImmediateScheduler extends Scheduler{
+	private static class ImmediateScheduler extends Scheduler {
 		@NonNull
 		@Override
 		public Worker createWorker() {
@@ -23,11 +23,14 @@ public class TestSchedulerModule {
 		}
 	}
 
+	private static final ImmediateScheduler sImmediateScheduler = new ImmediateScheduler();
+
 	@NonNull
 	@Singleton
 	@Provides
 	@Named(SchedulerModule.ASYNC_QUERY_SCHEDULER)
 	Scheduler providesAsyncQueryScheduler() {
-		return new ImmediateScheduler();
+		return sImmediateScheduler;
 	}
+
 }
