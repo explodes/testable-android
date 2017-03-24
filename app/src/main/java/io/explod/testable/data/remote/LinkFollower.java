@@ -12,6 +12,7 @@ import io.reactivex.Single;
 import io.reactivex.functions.BiConsumer;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 import static io.explod.testable.data.remote.LinkParser.parseLink;
@@ -74,9 +75,22 @@ public class LinkFollower<ResponseType, Collection> {
 		if (!TextUtils.isEmpty(link)) {
 			Request request = new Request.Builder().get().url(link).build();
 			response = mOkHttpClient.newCall(request).execute();
-			ResponseType responseResult = mGson.getAdapter(mTypeToken).fromJson(response.body().charStream());
-			mCollector.accept(mCollection, responseResult);
+			addResponseToCollector(response);
 			followWithResponse(response);
+		}
+	}
+
+	private void addResponseToCollector(@NonNull okhttp3.Response next) throws Exception {
+		ResponseBody body = next.body();
+		if (body == null) return;
+		try {
+			ResponseType responseResult = mGson.getAdapter(mTypeToken).fromJson(body.charStream());
+			mCollector.accept(mCollection, responseResult);
+		} finally {
+			// the body must be closed after reading so that
+			// OkHttp can finish the caching process. Plus, it
+			// should be closed anyway.
+			body.close();
 		}
 	}
 
