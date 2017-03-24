@@ -14,7 +14,7 @@ import io.explod.testable.BuildConfig;
 import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class, sdk = Config.ALL_SDKS)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 public abstract class BaseRoboTest {
 
 	@Before
