@@ -20,7 +20,8 @@ import static org.junit.Assert.assertTrue;
 
 public class OfflineFirstObservableTest extends BaseRoboTest {
 
-	@Rule public ImmediateSchedulerRule immediate = new ImmediateSchedulerRule();
+	@Rule
+	public ImmediateSchedulerRule immediate = new ImmediateSchedulerRule();
 
 	private static class TestSource {
 

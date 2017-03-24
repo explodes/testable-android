@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.explod.testable.service.base.GithubService;
 import io.explod.testable.data.remote.model.UserRepositoryResponse;
+import io.explod.testable.service.base.GithubService;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
