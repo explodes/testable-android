@@ -17,7 +17,7 @@ public class MainActivityTest extends BaseRoboTest {
 	public void titleIsCorrect() throws Exception {
 		Activity activity = Robolectric.setupActivity(MainActivity.class);
 
-		waitForMainLooper(activity);
+		waitForMainLooper();
 
 		assertEquals("explodes", activity.getTitle().toString());
 	}
