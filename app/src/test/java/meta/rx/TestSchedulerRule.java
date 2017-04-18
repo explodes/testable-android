@@ -8,19 +8,13 @@ import org.junit.runners.model.Statement;
 
 import io.reactivex.Scheduler;
 import io.reactivex.android.plugins.RxAndroidPlugins;
-import io.reactivex.internal.schedulers.ExecutorScheduler;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.TestScheduler;
 
 public class TestSchedulerRule implements TestRule {
 
-	private final Scheduler immediate = new Scheduler() {
-		@NonNull
-		@Override
-		public Worker createWorker() {
-			return new ExecutorScheduler.ExecutorWorker(Runnable::run);
-		}
-	};
+	private final Scheduler immediate = new ImmediateScheduler();
+
 	private final TestScheduler testScheduler = new TestScheduler();
 
 	@NonNull
